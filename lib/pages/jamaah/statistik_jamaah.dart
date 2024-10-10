@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Pastikan sudah mengimpor AppColors
 
 class StatistikJamaahTab extends StatelessWidget {
+  const StatistikJamaahTab({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -20,7 +22,7 @@ class StatistikJamaahTab extends StatelessWidget {
             ],
             gradient: AppColors.primaryGradient,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           
           // Card Jenis Kelamin dengan blueGradient
           _buildStatCard(
@@ -32,7 +34,7 @@ class StatistikJamaahTab extends StatelessWidget {
             ],
             gradient: AppColors.blueGradient,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           // Card Status Marital dengan yellowGradient
           _buildStatCard(
@@ -44,7 +46,7 @@ class StatistikJamaahTab extends StatelessWidget {
             ],
             gradient: AppColors.yellowGradient,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           // Card Status Ekonomi dengan purpleGradient
           _buildStatCard(
@@ -56,7 +58,7 @@ class StatistikJamaahTab extends StatelessWidget {
             ],
             gradient: AppColors.purpleGradient,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
@@ -86,7 +88,7 @@ class StatistikJamaahTab extends StatelessWidget {
                 color: Colors.white, // Warna teks tetap putih
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: stats,

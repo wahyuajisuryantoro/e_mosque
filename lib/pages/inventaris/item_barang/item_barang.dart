@@ -49,6 +49,8 @@ class ItemBarangPage extends StatelessWidget {
     },
   ];
 
+  ItemBarangPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +127,7 @@ class ItemBarangPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EditItemBarangPage()));
+                                builder: (context) => const EditItemBarangPage()));
                       },
                     ),
                   ],
@@ -180,7 +182,7 @@ class ItemBarangPage extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -189,8 +191,8 @@ class ItemBarangPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add, color: Colors.white),
-            SizedBox(width: 8),
+            const Icon(Icons.add, color: Colors.white),
+            const SizedBox(width: 8),
             Text(
               'Tambah Item Barang',
               style: GoogleFonts.poppins(

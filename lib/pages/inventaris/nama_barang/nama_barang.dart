@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart';
 
 class NamaBarangPage extends StatefulWidget {
+  const NamaBarangPage({super.key});
+
   @override
   _NamaBarangPageState createState() => _NamaBarangPageState();
 }
@@ -218,7 +220,7 @@ class _NamaBarangPageState extends State<NamaBarangPage> {
                     top: 8,
                     left: 8,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         gradient: AppColors.primaryGradient,
                       ),

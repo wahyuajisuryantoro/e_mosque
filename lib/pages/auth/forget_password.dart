@@ -5,6 +5,8 @@ import 'package:e_mosque/components/alert.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
+
   @override
   _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
@@ -46,7 +48,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           },
           child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -56,7 +58,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       height: 120,
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Text(
                     'Reset Password',
                     style: GoogleFonts.poppins(
@@ -65,7 +67,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       color: Colors.black87,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     'Silakan masukkan email Anda untuk menerima instruksi reset password.',
                     style: GoogleFonts.poppins(
@@ -73,7 +75,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       color: Colors.black54,
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Text(
                     'Email',
                     style: GoogleFonts.poppins(
@@ -82,19 +84,19 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       color: Colors.black87,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   buildTextField(
                     controller: _emailController,
                     hintText: 'Masukkan email Anda',
                     prefixIcon: Icons.email,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _sendResetPassword,
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: AppColors.greenColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -134,13 +136,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             prefixIcon != null ? Icon(prefixIcon, color: Colors.grey) : null,
         filled: true,
         fillColor: Colors.grey.shade100,
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey.shade300),
           borderRadius: BorderRadius.circular(12.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.greenColor),
+          borderSide: const BorderSide(color: AppColors.greenColor),
           borderRadius: BorderRadius.circular(12.0),
         ),
       ),

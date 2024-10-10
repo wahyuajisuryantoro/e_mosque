@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:e_mosque/components/colors.dart'; // Asumsi AppColors didefinisikan di sini
 
 class TambahBarangPage extends StatefulWidget {
+  const TambahBarangPage({super.key});
+
   @override
   _TambahBarangPageState createState() => _TambahBarangPageState();
 }
@@ -38,7 +40,7 @@ class _TambahBarangPageState extends State<TambahBarangPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -176,7 +178,7 @@ class _TambahBarangPageState extends State<TambahBarangPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
+                            const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
                             Text(
                               'Upload Gambar Barang',
                               style: GoogleFonts.poppins(color: Colors.grey),
@@ -208,7 +210,7 @@ class _TambahBarangPageState extends State<TambahBarangPage> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             padding: const EdgeInsets.all(6),
-                            child: Icon(Icons.delete, color: Colors.white),
+                            child: const Icon(Icons.delete, color: Colors.white),
                           ),
                         ),
                       ),
@@ -232,7 +234,7 @@ class _TambahBarangPageState extends State<TambahBarangPage> {
                 onPressed: () {
                   // Logika untuk menyimpan data nama barang
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Nama barang berhasil disimpan!')),
+                    const SnackBar(content: Text('Nama barang berhasil disimpan!')),
                   );
                 },
                 child: Text(

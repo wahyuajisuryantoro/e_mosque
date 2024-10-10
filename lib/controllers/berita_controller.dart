@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:e_mosque/model/berita.dart';
 
 class BeritaProvider with ChangeNotifier {

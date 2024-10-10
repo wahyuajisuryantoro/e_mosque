@@ -4,6 +4,8 @@ import 'package:e_mosque/components/header.dart';
 import 'package:e_mosque/components/custom_buttom_navigation_bar.dart';
 
 class LihatTakmirScreen extends StatelessWidget {
+  const LihatTakmirScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,21 +25,21 @@ class LihatTakmirScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
+                      const Center(
                         child: CircleAvatar(
                           backgroundImage: AssetImage('assets/images/user.png'),
                           radius: 50,
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       _buildDataRow('Jabatan', 'Ketua'),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       _buildDataRow('Nama Lengkap', 'Fulan'),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       _buildDataRow('Alamat', 'Jalan ...'),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       _buildDataRow('No. Telepon / HP', '08123456789'),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       _buildDataRow('Email', 'fulan@example.com'),
                     ],
                   ),
@@ -55,7 +57,7 @@ class LihatTakmirScreen extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: 130, 
           child: Text(
             '$label:',

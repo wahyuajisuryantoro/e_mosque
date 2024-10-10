@@ -36,8 +36,23 @@ class AcaraProvider with ChangeNotifier {
           _errorMessage = jsonData['message'];
         }
       } else {
-        _errorMessage = "Failed to load data: Status code ${response.statusCode}";
+        _errorMessage =
+            "Failed to load data: Status code ${response.statusCode}";
       }
+    } catch (e) {
+      _errorMessage = "Error: $e";
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> refreshAcara() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      await fetchAcara();
     } catch (e) {
       _errorMessage = "Error: $e";
     }

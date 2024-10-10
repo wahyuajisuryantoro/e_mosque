@@ -5,7 +5,7 @@ import 'package:e_mosque/components/colors.dart'; // Asumsi AppColors didefinisi
 class DetailBarangPage extends StatefulWidget {
   final Map<String, String> barang;
 
-  DetailBarangPage({required this.barang});
+  const DetailBarangPage({super.key, required this.barang});
 
   @override
   _DetailBarangPageState createState() => _DetailBarangPageState();
@@ -41,7 +41,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -115,7 +115,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
         const SizedBox(height: 4),
         Row(
           children: [
-            Icon(Icons.category, color: Colors.grey, size: 18),
+            const Icon(Icons.category, color: Colors.grey, size: 18),
             const SizedBox(width: 8),
             Text(
               'Kategori: ${widget.barang['kategori']}',
@@ -129,7 +129,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
         const SizedBox(height: 4),
         Row(
           children: [
-            Icon(Icons.description, color: Colors.grey, size: 18),
+            const Icon(Icons.description, color: Colors.grey, size: 18),
             const SizedBox(width: 8),
             Text(
               'Deskripsi: Sajadah Gulung',
@@ -143,7 +143,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
         const SizedBox(height: 4),
         Row(
           children: [
-            Icon(Icons.straighten, color: Colors.grey, size: 18),
+            const Icon(Icons.straighten, color: Colors.grey, size: 18),
             const SizedBox(width: 8),
             Text(
               'Satuan: Meter',

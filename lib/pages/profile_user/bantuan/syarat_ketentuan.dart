@@ -4,6 +4,8 @@ import 'package:html/parser.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SyaratdanKetentuanScreen extends StatefulWidget {
+  const SyaratdanKetentuanScreen({super.key});
+
   @override
   _SyaratdanKetentuanScreenState createState() =>
       _SyaratdanKetentuanScreenState();
@@ -26,7 +28,7 @@ class _SyaratdanKetentuanScreenState extends State<SyaratdanKetentuanScreen> {
         setState(() {
           termsContent = contentElements.map((element) {
             if (element.localName == 'h5') {
-              return "${element.text}";
+              return element.text;
             } else {
               return element.text;
             }
@@ -89,7 +91,7 @@ class _SyaratdanKetentuanScreenState extends State<SyaratdanKetentuanScreen> {
                 ),
               ),
             )
-          : Center(child: CircularProgressIndicator()),
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -101,7 +103,7 @@ class _SyaratdanKetentuanScreenState extends State<SyaratdanKetentuanScreen> {
       if (paragraph.startsWith("##")) {
         formattedText.add(
           TextSpan(
-            text: paragraph.replaceFirst("##", "") + "\n\n",
+            text: "${paragraph.replaceFirst("##", "")}\n\n",
             style: GoogleFonts.poppins(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -112,7 +114,7 @@ class _SyaratdanKetentuanScreenState extends State<SyaratdanKetentuanScreen> {
       } else {
         formattedText.add(
           TextSpan(
-            text: paragraph + "\n\n",
+            text: "$paragraph\n\n",
             style: GoogleFonts.poppins(
               fontSize: 16,
               color: Colors.black87,

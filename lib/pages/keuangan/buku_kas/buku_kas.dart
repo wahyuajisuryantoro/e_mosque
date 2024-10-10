@@ -37,6 +37,8 @@ class BukuKasPage extends StatelessWidget {
     },
   ];
 
+  BukuKasPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,7 +118,7 @@ class BukuKasPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EditBukuKasPage(),
+                            builder: (context) => const EditBukuKasPage(),
                           ),
                         );
                       },
@@ -172,7 +174,7 @@ class BukuKasPage extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -181,8 +183,8 @@ class BukuKasPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add, color: Colors.white),
-            SizedBox(width: 8),
+            const Icon(Icons.add, color: Colors.white),
+            const SizedBox(width: 8),
             Text(
               'Tambah Buku Kas',
               style: GoogleFonts.poppins(

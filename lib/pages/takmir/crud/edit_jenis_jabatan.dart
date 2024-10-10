@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Import AppColors untuk gradient
 
 class EditJabatanScreen extends StatefulWidget {
+  const EditJabatanScreen({super.key});
+
   @override
   _EditJabatanScreenState createState() => _EditJabatanScreenState();
 }
@@ -27,7 +29,7 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -43,7 +45,7 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
         centerTitle: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
+            icon: const Icon(Icons.delete, color: Colors.red),
             onPressed: () {
               GlobalAlert.showAlert(
                 context: context,
@@ -79,7 +81,7 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
                     ),
                     style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Level Jabatan
                   Text(
@@ -107,7 +109,7 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
                       );
                     }).toList(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Deskripsi Jabatan
                   Text(
@@ -126,13 +128,13 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
                     maxLines: 4,
                     style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Tombol Simpan dan Kembali
                   Row(
                     children: [
                       Expanded(child: _buildSimpanButton()),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(child: _buildKembaliButton()),
                     ],
                   ),
@@ -156,7 +158,7 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -169,11 +171,11 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
 
           if (namaJabatan.isEmpty || level.isEmpty || deskripsi.isEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Semua field harus diisi')),
+              const SnackBar(content: Text('Semua field harus diisi')),
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Data Jabatan disimpan')),
+              const SnackBar(content: Text('Data Jabatan disimpan')),
             );
             Navigator.pop(context);
           }
@@ -198,7 +200,7 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

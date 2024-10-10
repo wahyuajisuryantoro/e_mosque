@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:e_mosque/components/colors.dart';
 
 class TambahItemBarangPage extends StatefulWidget {
+  const TambahItemBarangPage({super.key});
+
   @override
   _TambahItemBarangPageState createState() => _TambahItemBarangPageState();
 }
@@ -40,7 +42,7 @@ class _TambahItemBarangPageState extends State<TambahItemBarangPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -223,7 +225,7 @@ class _TambahItemBarangPageState extends State<TambahItemBarangPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
+                            const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
                             Text(
                               'Upload Foto Item',
                               style: GoogleFonts.poppins(color: Colors.grey),
@@ -255,7 +257,7 @@ class _TambahItemBarangPageState extends State<TambahItemBarangPage> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             padding: const EdgeInsets.all(6),
-                            child: Icon(Icons.delete, color: Colors.white),
+                            child: const Icon(Icons.delete, color: Colors.white),
                           ),
                         ),
                       ),
@@ -279,7 +281,7 @@ class _TambahItemBarangPageState extends State<TambahItemBarangPage> {
                 onPressed: () {
                   // Logika untuk menyimpan data item barang
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Item barang berhasil disimpan!')),
+                    const SnackBar(content: Text('Item barang berhasil disimpan!')),
                   );
                 },
                 child: Text(

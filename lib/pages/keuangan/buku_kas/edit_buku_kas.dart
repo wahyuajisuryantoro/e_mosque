@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Import class warna sesuai kebutuhan
 
 class EditBukuKasPage extends StatefulWidget {
-  const EditBukuKasPage({Key? key}) : super(key: key);
+  const EditBukuKasPage({super.key});
 
   @override
   _EditBukuKasPageState createState() => _EditBukuKasPageState();
@@ -23,7 +23,7 @@ class _EditBukuKasPageState extends State<EditBukuKasPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -38,7 +38,7 @@ class _EditBukuKasPageState extends State<EditBukuKasPage> {
         ),
          actions: [
           IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
+            icon: const Icon(Icons.delete, color: Colors.red),
             onPressed: () {
               GlobalAlert.showAlert(
                 context: context,
@@ -124,7 +124,7 @@ class _EditBukuKasPageState extends State<EditBukuKasPage> {
                 onPressed: () {
                   // Logika untuk menyimpan data yang telah diubah
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Perubahan disimpan!')),
+                    const SnackBar(content: Text('Perubahan disimpan!')),
                   );
                 },
                 child: Text(

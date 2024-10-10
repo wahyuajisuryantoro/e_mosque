@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class BeritaDetailPage extends StatelessWidget {
   final Berita berita;
 
-  BeritaDetailPage({required this.berita});
+  const BeritaDetailPage({super.key, required this.berita});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class BeritaDetailPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black87),
+        iconTheme: const IconThemeData(color: Colors.black87),
         elevation: 1,
         title: Text(
           "Detail Berita",
@@ -32,7 +32,7 @@ class BeritaDetailPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -51,7 +51,7 @@ class BeritaDetailPage extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               berita.title,
               style: GoogleFonts.poppins(
@@ -60,11 +60,11 @@ class BeritaDetailPage extends StatelessWidget {
                 color: Colors.black87,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.calendar_today, color: Colors.black54, size: 16),
-                SizedBox(width: 4),
+                const Icon(Icons.calendar_today, color: Colors.black54, size: 16),
+                const SizedBox(width: 4),
                 Text(
                   DateFormat('dd MMM yyyy').format(berita.date),
                   style: GoogleFonts.poppins(
@@ -72,9 +72,9 @@ class BeritaDetailPage extends StatelessWidget {
                     color: Colors.black54,
                   ),
                 ),
-                SizedBox(width: 16),
-                Icon(Icons.person, color: Colors.black54, size: 16),
-                SizedBox(width: 4),
+                const SizedBox(width: 16),
+                const Icon(Icons.person, color: Colors.black54, size: 16),
+                const SizedBox(width: 4),
                 Text(
                   berita.author ?? 'Admin',
                   style: GoogleFonts.poppins(
@@ -84,7 +84,7 @@ class BeritaDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               berita.content,
               style: GoogleFonts.poppins(
@@ -94,7 +94,7 @@ class BeritaDetailPage extends StatelessWidget {
               ),
               textAlign: TextAlign.justify,
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               'Berita Terkait',
               style: GoogleFonts.poppins(
@@ -103,9 +103,9 @@ class BeritaDetailPage extends StatelessWidget {
                 color: Colors.black87,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             relatedNews.isNotEmpty
-                ? Container(
+                ? SizedBox(
                     height: 150,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -123,7 +123,7 @@ class BeritaDetailPage extends StatelessWidget {
                           },
                           child: Container(
                             width: 140,
-                            margin: EdgeInsets.only(right: 12),
+                            margin: const EdgeInsets.only(right: 12),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               image: DecorationImage(
@@ -148,7 +148,7 @@ class BeritaDetailPage extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.bottomLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     related.title,
                                     style: GoogleFonts.poppins(

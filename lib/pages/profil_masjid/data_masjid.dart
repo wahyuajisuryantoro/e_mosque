@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:e_mosque/controllers/masjid_controller.dart';
 
 class DataMasjidPage extends StatefulWidget {
-  const DataMasjidPage({Key? key}) : super(key: key);
+  const DataMasjidPage({super.key});
 
   @override
   _DataMasjidPageState createState() => _DataMasjidPageState();
@@ -65,12 +65,12 @@ class _DataMasjidPageState extends State<DataMasjidPage> {
                   fontWeight: FontWeight.bold,
                   foreground: Paint()
                     ..shader = AppColors.primaryGradient.createShader(
-                      Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
+                      const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
                     ),
                 ),
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             
             _buildLabelText('Nama Masjid'),
             _buildTextFormField(
@@ -157,7 +157,7 @@ class _DataMasjidPageState extends State<DataMasjidPage> {
             GoogleFonts.poppins(fontSize: 14, color: Colors.grey.shade400),
         prefixIcon:
             prefixIcon != null ? Icon(prefixIcon, color: Colors.grey) : null,
-        contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         filled: true,
         fillColor: Colors.white,
         enabledBorder: OutlineInputBorder(
@@ -165,7 +165,7 @@ class _DataMasjidPageState extends State<DataMasjidPage> {
           borderRadius: BorderRadius.circular(12),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.greenColor),
+          borderSide: const BorderSide(color: AppColors.greenColor),
           borderRadius: BorderRadius.circular(12),
         ),
       ),
@@ -219,7 +219,7 @@ class _DataMasjidPageState extends State<DataMasjidPage> {
           ),
           child: Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
               'Simpan',
               style: GoogleFonts.poppins(

@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:e_mosque/components/colors.dart'; 
 
 class TambahPemasukanPage extends StatefulWidget {
+  const TambahPemasukanPage({super.key});
+
   @override
   _TambahPemasukanPageState createState() => _TambahPemasukanPageState();
 }
@@ -62,7 +64,7 @@ class _TambahPemasukanPageState extends State<TambahPemasukanPage> {
               'Tanggal Transaksi:',
               style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             GestureDetector(
               onTap: () => _selectDate(context),
               child: Container(
@@ -78,19 +80,19 @@ class _TambahPemasukanPageState extends State<TambahPemasukanPage> {
                       "${_selectedDate.toLocal()}".split(' ')[0],
                       style: GoogleFonts.poppins(fontSize: 16),
                     ),
-                    Icon(Icons.calendar_today, color: Colors.grey),
+                    const Icon(Icons.calendar_today, color: Colors.grey),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Nilai Transaksi
             Text(
               'Nilai Transaksi:',
               style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               decoration: InputDecoration(
                 hintText: 'Isi Nilai Transaksi',
@@ -101,14 +103,14 @@ class _TambahPemasukanPageState extends State<TambahPemasukanPage> {
               keyboardType: TextInputType.number,
               style: GoogleFonts.poppins(),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Akun Transaksi (Dropdown)
             Text(
               'Akun Transaksi:',
               style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -128,14 +130,14 @@ class _TambahPemasukanPageState extends State<TambahPemasukanPage> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Buku Kas (Dropdown)
             Text(
               'Buku Kas:',
               style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             DropdownButtonFormField<String>(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -155,14 +157,14 @@ class _TambahPemasukanPageState extends State<TambahPemasukanPage> {
                 });
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Deskripsi Transaksi
             Text(
               'Deskripsi:',
               style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               maxLines: 3,
               decoration: InputDecoration(
@@ -173,7 +175,7 @@ class _TambahPemasukanPageState extends State<TambahPemasukanPage> {
               ),
               style: GoogleFonts.poppins(),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Foto / Bukti Transaksi
             Text(
@@ -195,7 +197,7 @@ class _TambahPemasukanPageState extends State<TambahPemasukanPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
+                            const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
                             Text(
                               'Upload Bukti Transaksi',
                               style: GoogleFonts.poppins(color: Colors.grey),
@@ -227,13 +229,13 @@ class _TambahPemasukanPageState extends State<TambahPemasukanPage> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             padding: const EdgeInsets.all(6),
-                            child: Icon(Icons.delete, color: Colors.white),
+                            child: const Icon(Icons.delete, color: Colors.white),
                           ),
                         ),
                       ),
                     ],
                   ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Tombol Simpan
             Container(
@@ -251,7 +253,7 @@ class _TambahPemasukanPageState extends State<TambahPemasukanPage> {
                 onPressed: () {
                   // Logika untuk menyimpan data
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Pemasukan berhasil disimpan!')),
+                    const SnackBar(content: Text('Pemasukan berhasil disimpan!')),
                   );
                 },
                 child: Text(

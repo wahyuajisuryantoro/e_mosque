@@ -14,99 +14,107 @@ class NotificationProvider with ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   NotificationProvider() {
-    fetchNotifications();
+    getNotifications();
   }
 
-  Future<void> fetchNotifications() async {
+  Future<void> getNotifications() async {
     _isLoading = true;
     notifyListeners();
 
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? sessionId = prefs.getString('session_id');
+      String? username = prefs.getString('username');
 
-      final response = await http.get(
-        Uri.parse('http://emasjid.id/api/notifikasi/get_notif.php'),
-        headers: {
-          'Cookie': 'PHPSESSID=$sessionId',
-        },
-      );
+      if (username != null) {
+        final response = await http.get(
+          Uri.parse('http://emasjid.id/api/notifikasi/get_notif.php?username=$username'),
+        );
 
-      if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
-
-        if (jsonData.containsKey('error')) {
-          _errorMessage = jsonData['error'];
+        if (response.statusCode == 200) {
+          final jsonData = json.decode(response.body);
+          if (jsonData['status'] == 'success') {
+            _notifications = (jsonData['notifications'] as List)
+                .map((notif) => NotificationModel.fromJson(notif))
+                .toList();
+            _errorMessage = null;
+          } else {
+            _errorMessage = jsonData['message'];
+            print('No notifications found: ${jsonData['message']}');
+          }
         } else {
-          _notifications = (jsonData['notifications'] as List)
-              .map((notif) => NotificationModel.fromJson(notif))
-              .toList();
-          _errorMessage = null;
+          _errorMessage = 'Failed to load data: Status code ${response.statusCode}';
+          print('Server error: ${response.statusCode}');
         }
       } else {
-        _errorMessage =
-            "Failed to load data: Status code ${response.statusCode}";
+        _errorMessage = "Username not found in session.";
+        print('Username not found in SharedPreferences.');
       }
     } catch (e) {
       _errorMessage = "Error: $e";
+      print('Error fetching notifications: $e');
     }
 
     _isLoading = false;
     notifyListeners();
   }
 
-  Future<void> addWelcomeNotificationIfNeeded() async {
-    _isLoading = true;
-    notifyListeners();
-
+  Future<bool> checkForWelcomeNotification() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? sessionId = prefs.getString('session_id');
-      final response = await http.get(
-        Uri.parse('http://emasjid.id/api/notifikasi/get_notif.php'),
-        headers: {
-          'Cookie': 'PHPSESSID=$sessionId',
-        },
-      );
+      String? username = prefs.getString('username');
 
-      if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
-        final notifications = (jsonData['notifications'] as List)
-            .map((notif) => NotificationModel.fromJson(notif))
-            .toList();
-        bool welcomeNotificationExists = notifications
-            .any((notif) => notif.name == "Selamat Datang di eMasjid.id");
-        if (!welcomeNotificationExists) {
-          final addResponse = await http.post(
-            Uri.parse('http://emasjid.id/api/notifikasi/post_notif.php'),
-            headers: {
-              'Content-Type': 'application/json',
-              'Cookie': 'PHPSESSID=$sessionId',
-            },
-          );
+      if (username != null) {
+        final response = await http.get(
+          Uri.parse('http://emasjid.id/api/notifikasi/get_notif.php?username=$username'),
+        );
 
-          if (addResponse.statusCode == 200) {
-            var jsonResponse = json.decode(addResponse.body);
-            if (jsonResponse['status'] == 'success') {
-              await fetchNotifications();
-            } else {
-              _errorMessage = jsonResponse['message'];
-            }
-          } else {
-            throw Exception(
-                'Failed to add notification: Status code ${addResponse.statusCode}');
+        if (response.statusCode == 200) {
+          final jsonData = json.decode(response.body);
+          if (jsonData['status'] == 'success' && jsonData['notifications'] is List) {
+            List notifications = jsonData['notifications'];
+            bool welcomeNotificationExists = notifications.any(
+              (notif) => notif['name'] == "Selamat Datang di eMasjid.id",
+            );
+            return welcomeNotificationExists;
           }
         }
       } else {
-        _errorMessage =
-            "Failed to load data: Status code ${response.statusCode}";
+        print('Username not found in SharedPreferences.');
       }
     } catch (e) {
-      _errorMessage = 'Error while adding welcome notification: $e';
+      print('Error checking welcome notification: $e');
     }
+    return false;
+  }
 
-    _isLoading = false;
-    notifyListeners();
+  Future<void> postNotification() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? username = prefs.getString('username');
+
+      if (username != null) {
+        final response = await http.post(
+          Uri.parse('http://emasjid.id/api/notifikasi/post_notif.php'),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: {
+            'username': username,
+          },
+        );
+
+        if (response.statusCode == 200) {
+          final jsonData = json.decode(response.body);
+          print('Response: ${jsonData['message']}');
+        } else {
+          print('Server error: ${response.statusCode}');
+        }
+      } else {
+        print('Username not found in SharedPreferences.');
+      }
+    } catch (e) {
+      print('Error posting notification: $e');
+    }
   }
 
   Future<void> updateNotificationStatus(int no, String status) async {
@@ -115,37 +123,33 @@ class NotificationProvider with ChangeNotifier {
 
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? sessionId = prefs.getString('session_id');
+      String? username = prefs.getString('username');
 
-      if (sessionId == null) {
-        _errorMessage = 'Session ID not found';
-        _isLoading = false;
-        notifyListeners();
-        return;
-      }
-      final response = await http.post(
-        Uri.parse('http://emasjid.id/api/notifikasi/update_status_notif.php'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Cookie': 'PHPSESSID=$sessionId',
-        },
-        body: json.encode({
-          'no': no,
-          'status': status,
-        }),
-      );
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body);
+      if (username != null) {
+        final response = await http.post(
+          Uri.parse('http://emasjid.id/api/notifikasi/update_status_notif.php'),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: {
+            'no': no.toString(),
+            'username': username,
+            'status': status,
+          },
+        );
 
-        if (jsonResponse['status'] == 'success') {
-          await fetchNotifications();
+        if (response.statusCode == 200) {
+          final jsonData = json.decode(response.body);
+          if (jsonData['status'] == 'success') {
+            await getNotifications();
+          } else {
+            _errorMessage = jsonData['message'] ?? 'Failed to update notification status';
+          }
         } else {
-          _errorMessage =
-              jsonResponse['message'] ?? 'Failed to update notification status';
+          _errorMessage = 'Failed to update notification status: Status code ${response.statusCode}';
         }
       } else {
-        _errorMessage =
-            'Failed to update notification status: Status code ${response.statusCode}';
+        _errorMessage = "Username not found in session.";
       }
     } catch (e) {
       _errorMessage = 'Failed to update notification status: $e';
@@ -153,5 +157,15 @@ class NotificationProvider with ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  Future<void> markAllAsRead() async {
+    if (_notifications != null) {
+      for (var notification in _notifications!) {
+        if (notification.status == 'unread') {
+          await updateNotificationStatus(notification.no, 'read');
+        }
+      }
+    }
   }
 }

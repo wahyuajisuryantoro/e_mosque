@@ -6,7 +6,7 @@ class OnboardingWidget extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  OnboardingWidget({
+  const OnboardingWidget({super.key, 
     required this.imagePath,
     required this.title,
     required this.subtitle,
@@ -19,7 +19,7 @@ class OnboardingWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(40.0),
             bottomRight: Radius.circular(40.0),
           ),
@@ -30,7 +30,7 @@ class OnboardingWidget extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: Column(
@@ -43,7 +43,7 @@ class OnboardingWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 subtitle,
                 style: GoogleFonts.poppins(

@@ -15,6 +15,8 @@ class DetailBukuKasPage extends StatelessWidget {
   final String saldo = '2.500.000';
   final String buktiImageUrl = 'assets/images/bukti_transaksi.png';
 
+  const DetailBukuKasPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,7 @@ class DetailBukuKasPage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -157,7 +159,7 @@ class DetailBukuKasPage extends StatelessWidget {
             backgroundColor: Colors.black,
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Icons.close, color: Colors.white),
+              icon: const Icon(Icons.close, color: Colors.white),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -166,7 +168,7 @@ class DetailBukuKasPage extends StatelessWidget {
           body: Center(
             child: PhotoView(
               imageProvider: AssetImage(imageUrl),
-              backgroundDecoration: BoxDecoration(color: Colors.black),
+              backgroundDecoration: const BoxDecoration(color: Colors.black),
             ),
           ),
         ),

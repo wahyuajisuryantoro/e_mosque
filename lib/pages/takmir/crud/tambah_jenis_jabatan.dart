@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TambahJabatanScreen extends StatefulWidget {
+  const TambahJabatanScreen({super.key});
+
   @override
   _TambahJabatanScreenState createState() => _TambahJabatanScreenState();
 }
@@ -21,7 +23,7 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -38,7 +40,7 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -56,7 +58,7 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
                     ),
                     style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Level
                   TextField(
@@ -70,7 +72,7 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
                     ),
                     style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Deskripsi
                   TextField(
@@ -85,13 +87,13 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
                     maxLines: 4,
                     style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Tombol Simpan dan Kembali
                   Row(
                     children: [
                       Expanded(child: _buildSimpanButton()),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(child: _buildKembaliButton()),
                     ],
                   ),
@@ -115,7 +117,7 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -129,7 +131,7 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
           if (nama.isEmpty || level.isEmpty || deskripsi.isEmpty) {
             // Tampilkan pesan error jika data kosong
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Semua field harus diisi')),
+              const SnackBar(content: Text('Semua field harus diisi')),
             );
           } else {
             // Simpan data
@@ -155,7 +157,7 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

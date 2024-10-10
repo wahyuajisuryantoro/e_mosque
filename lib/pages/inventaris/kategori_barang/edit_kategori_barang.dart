@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Import sesuai kebutuhan
 
 class EditKategoriBarangPage extends StatefulWidget {
-  const EditKategoriBarangPage({Key? key}) : super(key: key);
+  const EditKategoriBarangPage({super.key});
 
   @override
   _EditKategoriBarangPageState createState() => _EditKategoriBarangPageState();
@@ -21,7 +21,7 @@ class _EditKategoriBarangPageState extends State<EditKategoriBarangPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -36,31 +36,31 @@ class _EditKategoriBarangPageState extends State<EditKategoriBarangPage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
+            icon: const Icon(Icons.delete, color: Colors.red),
             onPressed: () {
               // Logika untuk menghapus kategori
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Konfirmasi Hapus'),
-                    content: Text('Apakah Anda yakin ingin menghapus kategori ini?'),
+                    title: const Text('Konfirmasi Hapus'),
+                    content: const Text('Apakah Anda yakin ingin menghapus kategori ini?'),
                     actions: [
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Batal'),
+                        child: const Text('Batal'),
                       ),
                       TextButton(
                         onPressed: () {
                           // Logika untuk menghapus kategori
                           Navigator.of(context).pop();
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Kategori dihapus!')),
+                            const SnackBar(content: Text('Kategori dihapus!')),
                           );
                         },
-                        child: Text('Hapus'),
+                        child: const Text('Hapus'),
                       ),
                     ],
                   );
@@ -126,7 +126,7 @@ class _EditKategoriBarangPageState extends State<EditKategoriBarangPage> {
                 onPressed: () {
                   // Logika untuk menyimpan data yang telah diubah
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Perubahan disimpan!')),
+                    const SnackBar(content: Text('Perubahan disimpan!')),
                   );
                 },
                 child: Text(

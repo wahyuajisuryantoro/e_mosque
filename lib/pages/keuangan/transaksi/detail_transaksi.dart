@@ -13,6 +13,8 @@ class DetailTransaksiPage extends StatelessWidget {
   final String saldo = '3.000.000';
   final String buktiImageUrl = 'assets/images/bukti_transaksi.png';
 
+  const DetailTransaksiPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class DetailTransaksiPage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -168,7 +170,7 @@ class DetailTransaksiPage extends StatelessWidget {
             backgroundColor: Colors.black,
             elevation: 0,
             leading: IconButton(
-              icon: Icon(Icons.close, color: Colors.white),
+              icon: const Icon(Icons.close, color: Colors.white),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -177,7 +179,7 @@ class DetailTransaksiPage extends StatelessWidget {
           body: Center(
             child: PhotoView(
               imageProvider: AssetImage(imageUrl), // Menampilkan gambar secara penuh
-              backgroundDecoration: BoxDecoration(color: Colors.black),
+              backgroundDecoration: const BoxDecoration(color: Colors.black),
             ),
           ),
         ),

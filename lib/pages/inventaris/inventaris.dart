@@ -45,7 +45,7 @@ class _InventarisMasjidScreenState extends State<InventarisMasjidScreen>
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black), 
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black), 
           onPressed: () {
             Navigator.pop(context);
           },
@@ -85,13 +85,13 @@ class _InventarisMasjidScreenState extends State<InventarisMasjidScreen>
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
                 ),
-                tabs: [
+                tabs: const [
                   Tab(text: 'Laporan Inventaris'),
                   Tab(text: 'Item Barang'),
                   Tab(text: 'Nama Barang'),
                   Tab(text: 'Kategori Barang'),
                 ],
-                indicator: UnderlineTabIndicator(
+                indicator: const UnderlineTabIndicator(
                   borderSide: BorderSide(color: Colors.white, width: 3),
                   insets: EdgeInsets.symmetric(horizontal: 16),
                 ),
@@ -100,9 +100,9 @@ class _InventarisMasjidScreenState extends State<InventarisMasjidScreen>
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(top: 10),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),

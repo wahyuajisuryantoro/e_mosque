@@ -95,7 +95,6 @@ class GlobalAlert {
     );
   }
 
-  // Tambahkan metode showConfirmation di sini
   static void showConfirmation({
     required BuildContext context,
     required String title,
@@ -128,7 +127,7 @@ class GlobalAlert {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop(); 
                 if (onCancel != null) {
                   onCancel();
                 }
@@ -140,8 +139,8 @@ class GlobalAlert {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-                onConfirm(); // Execute confirm action
+                Navigator.of(context).pop(); 
+                onConfirm(); 
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,

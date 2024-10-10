@@ -6,7 +6,7 @@ class ApiService {
 
   // API untuk login
   Future<Map<String, dynamic>?> login(String username, String password) async {
-    final url = Uri.parse(baseUrl + 'login.php');
+    final url = Uri.parse('${baseUrl}login.php');
     final body = {
       'username': username,
       'password': password,
@@ -39,7 +39,7 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>?> register(String username, String name, String phone, String email, String password) async {
-    final url = Uri.parse(baseUrl + 'register.php');
+    final url = Uri.parse('${baseUrl}register.php');
     final body = {
       'username': username,
       'name': name,

@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_mosque/components/colors.dart';
 import 'package:e_mosque/components/custom_buttom_navigation_bar.dart';
+import 'package:e_mosque/controllers/acara_controller.dart';
 import 'package:e_mosque/controllers/berita_controller.dart';
 import 'package:e_mosque/controllers/notification_controller.dart';
 import 'package:e_mosque/controllers/slider_controller.dart';
@@ -18,6 +19,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -26,36 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   bool _isExpanded = false;
 
-  // final List<Map<String, String>> sliderItems = [
-  //   {
-  //     'image': 'assets/images/slider_masjid.png',
-  //     'text':
-  //         "Dan dirikanlah shalat, tunaikanlah zakat, dan rukuklah beserta orang-orang yang rukuk (QS. Al-Baqarah: 43)"
-  //   },
-  //   {
-  //     'image': 'assets/images/slider_kajian.png',
-  //     'text':
-  //         "Sesungguhnya shalat itu adalah kewajiban yang ditentukan waktunya atas orang-orang yang beriman (QS. An-Nisa: 103)"
-  //   },
-  //   {
-  //     'image': 'assets/images/slider_zakat.png',
-  //     'text':
-  //         "Ambillah zakat dari sebagian harta mereka, dengan zakat itu kamu membersihkan dan mensucikan mereka (QS. At-Taubah: 103)"
-  //   },
-  //   {
-  //     'image': 'assets/images/slider_qurban.png',
-  //     'text':
-  //         "Maka laksanakanlah shalat karena Tuhanmu dan berkurbanlah (QS. Al-Kautsar: 2)"
-  //   },
-  // ];
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final notificationProvider =
           Provider.of<NotificationProvider>(context, listen: false);
-      notificationProvider.addWelcomeNotificationIfNeeded();
+      notificationProvider.getNotifications();
 
       final sliderProvider =
           Provider.of<SliderProvider>(context, listen: false);
@@ -82,18 +62,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (user == null) {
       print("User masih null");
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
 
     print("User tersedia: ${user.name}");
 
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 100,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: AppColors.deepGreenGradient,
           ),
         ),
@@ -123,167 +103,174 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CircleAvatar(
               backgroundImage: user.picture.isNotEmpty
                   ? NetworkImage(user.picture)
-                  : AssetImage('assets/images/user.png') as ImageProvider,
+                  : const AssetImage('assets/images/user.png') as ImageProvider,
               radius: 25,
             ),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  gradient: AppColors.deepGreenGradient,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
+      body: RefreshIndicator(
+        onRefresh: _refreshContent,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 200,
+                  decoration: const BoxDecoration(
+                    gradient: AppColors.deepGreenGradient,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    elevation: 8,
-                    clipBehavior: Clip.antiAlias,
-                    child: sliderProvider.isLoading
-                        ? Center(child: CircularProgressIndicator())
-                        : CarouselSlider.builder(
-                            itemCount: sliderProvider.sliderList.length,
-                            itemBuilder: (context, index, realIndex) {
-                              final sliderItem =
-                                  sliderProvider.sliderList[index];
-                              return Stack(
-                                alignment: Alignment.bottomCenter,
-                                children: [
-                                  Image.network(
-                                    'https://emasjid.id/amm/upload/picture/${sliderItem.picture}',
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 280,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Image.asset(
-                                        'assets/images/slider_kajian.png',
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                        height: 280,
-                                      );
-                                    },
-                                  ),
-                                  Container(
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0,
-                                      vertical: 8.0,
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      elevation: 8,
+                      clipBehavior: Clip.antiAlias,
+                      child: sliderProvider.isLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : CarouselSlider.builder(
+                              itemCount: sliderProvider.sliderList.length,
+                              itemBuilder: (context, index, realIndex) {
+                                final sliderItem =
+                                    sliderProvider.sliderList[index];
+                                return Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    Image.network(
+                                      'https://emasjid.id/amm/upload/picture/${sliderItem.picture}',
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 280,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Image.asset(
+                                          'assets/images/slider_kajian.png',
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          height: 280,
+                                        );
+                                      },
                                     ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black54.withOpacity(0.5),
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
+                                    Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                        vertical: 8.0,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black54.withOpacity(0.5),
+                                        borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        sliderItem.name,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 12,
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
-                                    child: Text(
-                                      sliderItem.name,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                            options: CarouselOptions(
-                              height: 280,
-                              autoPlay: true,
-                              autoPlayInterval: Duration(seconds: 3),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              viewportFraction: 1.0,
-                              enlargeCenterPage: false,
+                                  ],
+                                );
+                              },
+                              options: CarouselOptions(
+                                height: 280,
+                                autoPlay: true,
+                                autoPlayInterval: const Duration(seconds: 3),
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                viewportFraction: 1.0,
+                                enlargeCenterPage: false,
+                              ),
                             ),
-                          ),
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    crossAxisCount: 4,
-                    childAspectRatio: 0.8,
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    children: [
-                      _buildMenuIcon('assets/icons/masjid.svg', "Profil Masjid",
-                          () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfileMasjidWrapper()),
-                        );
-                      }),
-                      _buildMenuIcon('assets/icons/takmir.svg', "Takmir", () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TakmirMasjidScreen()),
-                        );
-                      }),
-                      _buildMenuIcon('assets/icons/jamaah.svg', "Jamaah", () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => JamaahMasjidScreen()),
-                        );
-                      }),
-                      _buildMenuIcon('assets/icons/santri.svg', "Santri", () {
-                        // Navigasi Menu Santri
-                      }),
-                      _buildMenuIcon('assets/icons/keuangan.svg', "Keuangan",
-                          () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => KeuanganMasjidScreen()),
-                        );
-                      }),
-                      _buildMenuIcon(
-                          'assets/icons/inventaris.svg', "Inventaris", () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InventarisMasjidScreen()),
-                        );
-                      }),
-                      _buildMenuIcon(
-                          'assets/icons/website.svg', "Website", () {}),
-                      _buildMenuIcon(
-                          'assets/icons/kajian.svg', "Kajian", () {}),
-                      _buildMenuIcon(
-                          'assets/icons/ziswaf.svg', "Ziswaf", () {}),
-                      _buildMenuIcon(
-                          'assets/icons/qurban.svg', "Qurban", () {}),
-                      _buildMenuIcon('assets/icons/pustaka-digital.svg',
-                          "Pustaka Digital", () {}),
-                      _buildMenuIcon(
-                          'assets/icons/katalog-dai.svg', "Katalog Dai", () {}),
-                    ],
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: GridView.count(
+                      shrinkWrap: true,
+                      crossAxisCount: 4,
+                      childAspectRatio: 0.8,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      children: [
+                        _buildMenuIcon(
+                            'assets/icons/masjid.svg', "Profil Masjid", () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ProfileMasjidWrapper()),
+                          );
+                        }),
+                        _buildMenuIcon('assets/icons/takmir.svg', "Takmir", () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const TakmirMasjidScreen()),
+                          );
+                        }),
+                        _buildMenuIcon('assets/icons/jamaah.svg', "Jamaah", () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => JamaahMasjidScreen()),
+                          );
+                        }),
+                        _buildMenuIcon(
+                            'assets/icons/santri.svg', "Santri", () {}),
+                        _buildMenuIcon('assets/icons/keuangan.svg', "Keuangan",
+                            () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const KeuanganMasjidScreen()),
+                          );
+                        }),
+                        _buildMenuIcon(
+                            'assets/icons/inventaris.svg', "Inventaris", () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const InventarisMasjidScreen()),
+                          );
+                        }),
+                        _buildMenuIcon(
+                            'assets/icons/website.svg', "Website", () {}),
+                        _buildMenuIcon(
+                            'assets/icons/kajian.svg', "Kajian", () {}),
+                        _buildMenuIcon(
+                            'assets/icons/ziswaf.svg', "Ziswaf", () {}),
+                        _buildMenuIcon(
+                            'assets/icons/qurban.svg', "Qurban", () {}),
+                        _buildMenuIcon('assets/icons/pustaka-digital.svg',
+                            "Pustaka Digital", () {}),
+                        _buildMenuIcon('assets/icons/katalog-dai.svg',
+                            "Katalog Dai", () {}),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Column(
                       children: [
@@ -291,21 +278,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: BeritaWidget(),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: AcaraWidget(),
                         ),
                       ],
-                    )),
-                SizedBox(height: 30),
-              ],
-            ),
-          ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: CustomNavigationBar(),
     );
+  }
+
+  Future<void> _refreshContent() async {
+    await Provider.of<SliderProvider>(context, listen: false).fetchSlider();
+    await Provider.of<BeritaProvider>(context, listen: false).fetchBerita();
+    await Provider.of<AcaraProvider>(context, listen: false).refreshAcara();
   }
 
   Widget _buildMenuIcon(String assetPath, String label, VoidCallback onTap) {
@@ -314,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 200),
             width: 60,
             height: 60,
             decoration: BoxDecoration(
@@ -324,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 BoxShadow(
                   color: Colors.grey.shade400,
                   blurRadius: 4,
-                  offset: Offset(2, 2),
+                  offset: const Offset(2, 2),
                 ),
               ],
             ),
@@ -337,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             label,
             textAlign: TextAlign.center,

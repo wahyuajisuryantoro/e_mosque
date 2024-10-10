@@ -4,6 +4,8 @@ import 'package:html/parser.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class KebijakandanPrivasiScreen extends StatefulWidget {
+  const KebijakandanPrivasiScreen({super.key});
+
   @override
   _KebijakandanPrivasiScreenState createState() => _KebijakandanPrivasiScreenState();
 }
@@ -87,7 +89,7 @@ class _KebijakandanPrivasiScreenState extends State<KebijakandanPrivasiScreen> {
                 ),
               ),
             )
-          : Center(child: CircularProgressIndicator()),
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -101,7 +103,7 @@ class _KebijakandanPrivasiScreenState extends State<KebijakandanPrivasiScreen> {
         
         formattedText.add(
           TextSpan(
-            text: paragraph.replaceFirst("##", "") + "\n\n",
+            text: "${paragraph.replaceFirst("##", "")}\n\n",
             style: GoogleFonts.poppins(
               fontSize: 18,
               fontWeight: FontWeight.bold, 
@@ -113,7 +115,7 @@ class _KebijakandanPrivasiScreenState extends State<KebijakandanPrivasiScreen> {
         
         formattedText.add(
           TextSpan(
-            text: paragraph + "\n\n",
+            text: "$paragraph\n\n",
             style: GoogleFonts.poppins(
               fontSize: 16,
               color: Colors.black87,

@@ -16,7 +16,7 @@ class AcaraScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             if (user != null) {
               Navigator.pushReplacement(
@@ -39,7 +39,7 @@ class AcaraScreen extends StatelessWidget {
         ),
         centerTitle: false,
       ),
-      body: Center(
+      body: const Center(
         child: Text('Halaman Acara'),
       ),
     );

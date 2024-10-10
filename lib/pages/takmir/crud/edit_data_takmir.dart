@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Menggunakan AppColors yang berisi primaryGradient dan secondaryGradient
 
 class EditTakmirScreen extends StatefulWidget {
+  const EditTakmirScreen({super.key});
+
   @override
   _EditTakmirScreenState createState() => _EditTakmirScreenState();
 }
@@ -31,7 +33,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -46,7 +48,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
+            icon: const Icon(Icons.delete, color: Colors.red),
             onPressed: () {
               // Logika untuk menghapus data
               GlobalAlert.showAlert(
@@ -93,7 +95,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
                       );
                     }).toList(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Nama Lengkap
                   Text(
@@ -111,7 +113,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
                     ),
                     style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Alamat
                   Text(
@@ -129,7 +131,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
                     ),
                     style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // No. Telepon / HP
                   Text(
@@ -147,7 +149,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
                     ),
                     style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Email
                   Text(
@@ -165,17 +167,17 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
                     ),
                     style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Upload Foto
                   _buildPhoto(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Tombol Simpan dan Kembali
                   Row(
                     children: [
                       Expanded(child: _buildSimpanButton()),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(child: _buildKembaliButton()),
                     ],
                   ),
@@ -206,7 +208,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
+              const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
               Text(
                 'Upload Foto Takmir',
                 style: GoogleFonts.poppins(color: Colors.grey),
@@ -229,7 +231,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -257,7 +259,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

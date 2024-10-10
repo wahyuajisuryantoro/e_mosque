@@ -8,7 +8,7 @@ import 'package:e_mosque/provider/user_provider.dart';
 import 'package:e_mosque/controllers/profile_controller.dart';
 
 class UpdateGeneralInformation extends StatefulWidget {
-  const UpdateGeneralInformation({Key? key}) : super(key: key);
+  const UpdateGeneralInformation({super.key});
 
   @override
   _UpdateGeneralInformationState createState() =>
@@ -67,7 +67,7 @@ class _UpdateGeneralInformationState extends State<UpdateGeneralInformation> {
   Future<void> _updateProfile() async {
     if (_userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('User ID tidak ditemukan!')),
+        const SnackBar(content: Text('User ID tidak ditemukan!')),
       );
       return;
     }
@@ -109,12 +109,10 @@ class _UpdateGeneralInformationState extends State<UpdateGeneralInformation> {
       lastDate: DateTime(2100),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _birthController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _birthController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   @override
   Widget build(BuildContext context) {

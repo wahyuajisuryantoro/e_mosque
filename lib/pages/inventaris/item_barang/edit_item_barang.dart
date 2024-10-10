@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:e_mosque/components/colors.dart'; // Import sesuai kebutuhan
 
 class EditItemBarangPage extends StatefulWidget {
-  const EditItemBarangPage({Key? key}) : super(key: key);
+  const EditItemBarangPage({super.key});
 
   @override
   _EditItemBarangPageState createState() => _EditItemBarangPageState();
@@ -44,7 +44,7 @@ class _EditItemBarangPageState extends State<EditItemBarangPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -213,7 +213,7 @@ class _EditItemBarangPageState extends State<EditItemBarangPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
+                            const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
                             Text(
                               'Upload Foto Item',
                               style: GoogleFonts.poppins(color: Colors.grey),
@@ -245,7 +245,7 @@ class _EditItemBarangPageState extends State<EditItemBarangPage> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             padding: const EdgeInsets.all(6),
-                            child: Icon(Icons.delete, color: Colors.white),
+                            child: const Icon(Icons.delete, color: Colors.white),
                           ),
                         ),
                       ),
@@ -269,7 +269,7 @@ class _EditItemBarangPageState extends State<EditItemBarangPage> {
                 onPressed: () {
                   // Logika untuk menyimpan data yang telah diubah
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Perubahan disimpan!')),
+                    const SnackBar(content: Text('Perubahan disimpan!')),
                   );
                 },
                 child: Text(

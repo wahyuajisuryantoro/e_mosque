@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TambahJamaahScreen extends StatefulWidget {
+  const TambahJamaahScreen({super.key});
+
   @override
   _TambahJamaahScreenState createState() => _TambahJamaahScreenState();
 }
@@ -28,7 +30,7 @@ class _TambahJamaahScreenState extends State<TambahJamaahScreen> {
   String _selectedMaritalStatus = 'Menikah';
   String _selectedJamaahStatus = 'Jamaah';
   String _selectedGolDarah = 'A';
-  String _selectedEkonomiStatus = 'Mampu';
+  final String _selectedEkonomiStatus = 'Mampu';
 
   // Dropdown options
   final List<String> _genderOptions = ['Laki-laki', 'Perempuan'];
@@ -63,7 +65,7 @@ class _TambahJamaahScreenState extends State<TambahJamaahScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -398,7 +400,7 @@ class _TambahJamaahScreenState extends State<TambahJamaahScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
+              const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
               Text(
                 'Upload Foto Jamaah',
                 style: GoogleFonts.poppins(color: Colors.grey),
@@ -421,7 +423,7 @@ class _TambahJamaahScreenState extends State<TambahJamaahScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -448,7 +450,7 @@ class _TambahJamaahScreenState extends State<TambahJamaahScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

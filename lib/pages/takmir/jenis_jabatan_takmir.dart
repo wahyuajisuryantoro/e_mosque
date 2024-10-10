@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class JenisJabatanTakmir extends StatefulWidget {
+  const JenisJabatanTakmir({super.key});
+
   @override
   _JenisJabatanTakmirState createState() => _JenisJabatanTakmirState();
 }
@@ -66,7 +68,7 @@ class _JenisJabatanTakmirState extends State<JenisJabatanTakmir> {
                 },
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   backgroundColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -75,8 +77,8 @@ class _JenisJabatanTakmirState extends State<JenisJabatanTakmir> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.add, color: Colors.white),
-                    SizedBox(width: 8),
+                    const Icon(Icons.add, color: Colors.white),
+                    const SizedBox(width: 8),
                     Text(
                       'Tambah Jabatan',
                       style: GoogleFonts.poppins(
@@ -90,7 +92,7 @@ class _JenisJabatanTakmirState extends State<JenisJabatanTakmir> {
               ),
             ),
           ),
-          SizedBox(height: 40)
+          const SizedBox(height: 40)
         ],
       ),
     );
@@ -120,7 +122,7 @@ class _JenisJabatanTakmirState extends State<JenisJabatanTakmir> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
                     'Level: $level',
                     style: GoogleFonts.poppins(fontSize: 14),

@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart';
 
 class LaporanInventarisPage extends StatefulWidget {
+  const LaporanInventarisPage({super.key});
+
   @override
   _LaporanInventarisPageState createState() => _LaporanInventarisPageState();
 }

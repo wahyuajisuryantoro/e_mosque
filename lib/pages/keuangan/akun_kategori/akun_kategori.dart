@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Pastikan komponen AppColors sudah ada
 
 class AkunKategoriPage extends StatelessWidget {
-  const AkunKategoriPage({Key? key}) : super(key: key);
+  const AkunKategoriPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class AkunKategoriPage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EditAkunKategoriPage()));
+                            builder: (context) => const EditAkunKategoriPage()));
                   },
                 ),
               ),
@@ -123,7 +123,7 @@ class AkunKategoriPage extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -132,8 +132,8 @@ class AkunKategoriPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.add, color: Colors.white),
-            SizedBox(width: 8),
+            const Icon(Icons.add, color: Colors.white),
+            const SizedBox(width: 8),
             Text(
               'Tambah Akun Kategoru',
               style: GoogleFonts.poppins(

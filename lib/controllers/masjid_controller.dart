@@ -16,6 +16,7 @@ class MasjidProvider with ChangeNotifier {
   Masjid? get masjid => _masjid;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  String? get masjidName => _masjid?.name;
 
   MasjidProvider() {
     fetchMasjid();
@@ -164,12 +165,6 @@ class MasjidProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sessionId = prefs.getString('session_id');
 
-    if (sessionId == null) {
-      _errorMessage = 'Session ID is null. Please log in again.';
-      notifyListeners();
-      return;
-    }
-
     final response = await http.post(
       Uri.parse('http://emasjid.id/api/masjid/update_informasi_masjid.php'),
       headers: {
@@ -215,12 +210,6 @@ class MasjidProvider with ChangeNotifier {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sessionId = prefs.getString('session_id');
-
-    if (sessionId == null) {
-      _errorMessage = 'Session ID is null. Please log in again.';
-      notifyListeners();
-      return;
-    }
 
     String fileName = basename(imageFile.path);
     var request = http.MultipartRequest(

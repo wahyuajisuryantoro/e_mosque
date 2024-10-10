@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Pastikan AppColors tersedia untuk gradient tombol
 
 class TambahAkunKategoriPage extends StatefulWidget {
+  const TambahAkunKategoriPage({super.key});
+
   @override
   _TambahAkunKategoriPageState createState() => _TambahAkunKategoriPageState();
 }
@@ -23,7 +25,7 @@ class _TambahAkunKategoriPageState extends State<TambahAkunKategoriPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -134,7 +136,7 @@ class _TambahAkunKategoriPageState extends State<TambahAkunKategoriPage> {
         onPressed: () {
           // Logika untuk menyimpan data
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Akun Kategori berhasil disimpan!')),
+            const SnackBar(content: Text('Akun Kategori berhasil disimpan!')),
           );
         },
         child: Text(

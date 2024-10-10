@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatefulWidget {
+  const NotificationScreen({super.key});
+
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
 }
@@ -26,7 +28,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => HomeScreen()));
@@ -47,7 +49,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         children: [
           Expanded(
             child: notificationProvider.isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : ListView.builder(
                     itemCount: notificationProvider.notifications?.length ?? 0,
                     itemBuilder: (context, index) {
@@ -86,18 +88,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: AppColors.deepGreenGradient,
                     borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
                   ),
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.notifications,
                         color: Colors.white,
                         size: 30,
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: Text(
                           title,
@@ -117,12 +119,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      
+                      // Check the length of cleanContent before doing substring
                       Text(
-                        isExpanded ? cleanContent : '${cleanContent.substring(0, 100)}...',
+                        isExpanded 
+                          ? cleanContent 
+                          : cleanContent.length > 100 
+                            ? '${cleanContent.substring(0, 100)}...'
+                            : cleanContent,
                         style: GoogleFonts.poppins(fontSize: 14),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -144,7 +150,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: AppColors.tealGradient,
                     borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
                   ),

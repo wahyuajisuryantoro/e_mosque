@@ -15,9 +15,13 @@ class AuthController {
   final String baseUrl = "http://emasjid.id/api/auth/";
   final String resetUrl = 'https://emasjid.id/app/module/account/';
 
+   // Fungsi Login
   Future<User?> login(
-      String username, String password, BuildContext context) async {
-    final url = Uri.parse(baseUrl + 'login.php');
+    String username,
+    String password,
+    BuildContext context,
+  ) async {
+    final url = Uri.parse('${baseUrl}login.php');
     final body = {
       'username': username,
       'password': password,
@@ -67,32 +71,23 @@ class AuthController {
             date: result['date'] ?? '',
             publish: result['publish'] ?? '1',
           );
+
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('username', result['username']);
           if (response.headers.containsKey('set-cookie')) {
             String? sessionId =
                 response.headers['set-cookie']?.split(';')[0].split('=')[1];
-            if (sessionId != null) {
-              await prefs.setString('session_id', sessionId);
+            await prefs.setString('session_id', sessionId!);
+            final notificationProvider =
+                Provider.of<NotificationProvider>(context, listen: false);
+            bool hasWelcomeNotification =
+                await notificationProvider.checkForWelcomeNotification();
 
-              // Memanggil NotificationProvider dan menambahkan notifikasi sambutan
-              final notificationProvider =
-                  Provider.of<NotificationProvider>(context, listen: false);
-              try {
-                await notificationProvider.addWelcomeNotificationIfNeeded();
-              } catch (e) {
-                // Tampilkan pesan error jika gagal menambahkan notifikasi
-                print("Error adding welcome notification: $e");
-                GlobalAlert.showAlert(
-                  context: context,
-                  title: "Notifikasi Gagal",
-                  message: "Gagal membuat notifikasi sambutan.",
-                  type: AlertType.error,
-                );
-              }
+            if (!hasWelcomeNotification) {
+              await notificationProvider.postNotification();
             }
+            await notificationProvider.getNotifications();
           }
-
           Provider.of<UserProvider>(context, listen: false).setUser(user);
           GlobalAlert.showAlert(
             context: context,
@@ -108,6 +103,7 @@ class AuthController {
           );
           return user;
         } else {
+          // Tampilkan pesan error jika login gagal
           GlobalAlert.showAlert(
             context: context,
             title: "Login Gagal",
@@ -117,7 +113,7 @@ class AuthController {
           return null;
         }
       } else {
-        print("Login failed with status code: ${response.statusCode}");
+        // Tampilkan pesan error jika gagal terhubung ke server
         GlobalAlert.showAlert(
           context: context,
           title: "Login Gagal",
@@ -127,6 +123,7 @@ class AuthController {
         return null;
       }
     } catch (e) {
+      // Tampilkan pesan error jika terjadi kesalahan
       print("Error during login: $e");
       GlobalAlert.showAlert(
         context: context,
@@ -138,6 +135,7 @@ class AuthController {
     }
   }
 
+  // Fungsi Registrasi
   Future<User?> register(
     String username,
     String name,
@@ -146,7 +144,7 @@ class AuthController {
     String password,
     BuildContext context,
   ) async {
-    final url = Uri.parse(baseUrl + 'register.php');
+    final url = Uri.parse('${baseUrl}register.php');
     final body = {
       'username': username,
       'name': name,
@@ -168,8 +166,10 @@ class AuthController {
 
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
+
       if (response.statusCode == 200 && response.body.isNotEmpty) {
         final result = json.decode(response.body);
+
         if (result['status'] == 'success') {
           User user = User(
             userId: result['user_id'],
@@ -201,30 +201,30 @@ class AuthController {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('username', result['username']);
 
+          // Menyimpan session_id dari header
           if (response.headers.containsKey('set-cookie')) {
             String? sessionId =
                 response.headers['set-cookie']?.split(';')[0].split('=')[1];
-            if (sessionId != null) {
-              await prefs.setString('session_id', sessionId);
+            await prefs.setString('session_id', sessionId!);
 
-              // Memanggil NotificationProvider dan menambahkan notifikasi sambutan
-              final notificationProvider =
-                  Provider.of<NotificationProvider>(context, listen: false);
-              try {
-                await notificationProvider.addWelcomeNotificationIfNeeded();
-              } catch (e) {
-                // Tampilkan pesan error jika gagal menambahkan notifikasi
-                print("Error adding welcome notification: $e");
-                GlobalAlert.showAlert(
-                  context: context,
-                  title: "Notifikasi Gagal",
-                  message: "Gagal membuat notifikasi sambutan.",
-                  type: AlertType.error,
-                );
-              }
+            // Menggunakan NotificationProvider untuk menangani notifikasi
+            final notificationProvider =
+                Provider.of<NotificationProvider>(context, listen: false);
+
+            // Mengecek apakah sudah ada notifikasi sambutan
+            bool hasWelcomeNotification =
+                await notificationProvider.checkForWelcomeNotification();
+
+            if (!hasWelcomeNotification) {
+              // Menambahkan notifikasi sambutan jika belum ada
+              await notificationProvider.postNotification();
             }
+
+            // Mengambil semua notifikasi untuk pengguna
+            await notificationProvider.getNotifications();
           }
 
+          // Set user di UserProvider dan navigasi ke HomeScreen
           Provider.of<UserProvider>(context, listen: false).setUser(user);
           GlobalAlert.showAlert(
             context: context,
@@ -251,7 +251,6 @@ class AuthController {
           return null;
         }
       } else {
-        print("Register failed with status code: ${response.statusCode}");
         GlobalAlert.showAlert(
           context: context,
           title: "Registrasi Gagal",
@@ -271,7 +270,6 @@ class AuthController {
       return null;
     }
   }
-
   // Fungsi untuk logout
   void logout(BuildContext context) {
     GlobalAlert.showConfirmation(
@@ -313,7 +311,7 @@ class AuthController {
   }
 
   Future<bool> verifyUsername(String username, BuildContext context) async {
-    final url = Uri.parse(baseUrl + 'verify_username.php');
+    final url = Uri.parse('${baseUrl}verify_username.php');
     final body = {
       'username': username,
     };
@@ -342,7 +340,7 @@ class AuthController {
                 "Username valid. Anda akan diarahkan ke halaman reset password dalam 2 detik.",
             type: AlertType.success,
           );
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(const Duration(seconds: 2));
           return true;
         } else {
           GlobalAlert.showAlert(
@@ -376,21 +374,20 @@ class AuthController {
   }
 
   Future<void> updatePassword(
-  String oldPassword, 
-  String newPassword, 
-  BuildContext context,
-) async {
-  // Ambil username dari sesi pengguna, misalnya dari `Provider`
-  final userProvider = Provider.of<UserProvider>(context, listen: false);
-  String username = userProvider.user?.username ?? "";
+    String oldPassword,
+    String newPassword,
+    BuildContext context,
+  ) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    String username = userProvider.user?.username ?? "";
 
-  final url = Uri.parse(baseUrl + 'update_password.php');
+    final url = Uri.parse('${baseUrl}update_password.php');
 
-  final body = {
-    'username': username,
-    'password_lama': oldPassword,
-    'password_baru': newPassword,
-  };
+    final body = {
+      'username': username,
+      'password_lama': oldPassword,
+      'password_baru': newPassword,
+    };
 
     print("Sending update password request to: $url with body: $body");
 
@@ -416,10 +413,7 @@ class AuthController {
             message: "Password berhasil diubah.",
             type: AlertType.success,
           );
-
-          // Menunggu 2 detik sebelum mengarahkan ke layar login
-          await Future.delayed(Duration(seconds: 2));
-
+          await Future.delayed(const Duration(seconds: 2));
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => AuthScreen()),
           );
@@ -455,7 +449,7 @@ class AuthController {
 
   Future<void> resetPassword(String email, BuildContext context) async {
     final url = Uri.parse(
-        baseUrl + 'reset_password.php'); // Path relatif ke endpoint PHP Anda
+        '${baseUrl}reset_password.php'); 
     final body = {
       'email': email,
     };
@@ -510,33 +504,26 @@ class AuthController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sessionId = prefs.getString('session_id');
 
-    // Pastikan sessionId tidak null
-    if (sessionId != null) {
-      try {
-        final response = await http.post(
-          Uri.parse('http://emasjid.id/api/notifikasi/add_notif.php'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Cookie': 'PHPSESSID=$sessionId', // Kirim session ID sebagai cookie
-          },
-        );
-
-        // Cek status response
-        if (response.statusCode == 200) {
-          var jsonResponse = json.decode(response.body);
-          if (jsonResponse['status'] == 'success') {
-            print('Notifikasi sambutan berhasil ditambahkan');
-          } else {
-            print('Error: ${jsonResponse['message']}');
-          }
+    try {
+      final response = await http.post(
+        Uri.parse('http://emasjid.id/api/notifikasi/add_notif.php'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Cookie': 'PHPSESSID=$sessionId', 
+        },
+      );
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        if (jsonResponse['status'] == 'success') {
+          print('Notifikasi sambutan berhasil ditambahkan');
         } else {
-          print('Failed to trigger addNotif: ${response.statusCode}');
+          print('Error: ${jsonResponse['message']}');
         }
-      } catch (e) {
-        print('Error during addNotif request: $e');
+      } else {
+        print('Failed to trigger addNotif: ${response.statusCode}');
       }
-    } else {
-      print('Session ID not found');
+    } catch (e) {
+      print('Error during addNotif request: $e');
     }
   }
 }

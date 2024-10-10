@@ -17,7 +17,6 @@ class SliderProvider with ChangeNotifier {
     fetchSlider();
   }
 
-  // Fetch slider data dari API
   Future<void> fetchSlider() async {
     _isLoading = true;
     notifyListeners();
@@ -29,8 +28,6 @@ class SliderProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
-
-        // Memeriksa apakah request berhasil
         if (jsonData['status'] == 'success') {
           _sliderList = (jsonData['sliders'] as List)
               .map((item) => SliderModel.fromJson(item))

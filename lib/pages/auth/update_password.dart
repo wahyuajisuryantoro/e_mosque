@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class UpdatePasswordScreen extends StatefulWidget {
+  const UpdatePasswordScreen({super.key});
+
   @override
   _UpdatePasswordScreenState createState() => _UpdatePasswordScreenState();
 }
@@ -35,7 +37,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -48,7 +50,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
           },
           child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -60,7 +62,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                       color: Colors.black87,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     'Silakan masukkan password lama dan password baru Anda.',
                     style: GoogleFonts.poppins(
@@ -68,7 +70,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                       color: Colors.black54,
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
 
                   // TextField Read-Only untuk Username
                   Text(
@@ -79,13 +81,13 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                       color: Colors.black87,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   buildReadOnlyTextField(
                     initialValue: username,
                     hintText: 'Username',
                     prefixIcon: Icons.person,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   Text(
                     'Password Lama',
@@ -95,7 +97,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                       color: Colors.black87,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   buildTextField(
                     controller: _oldPasswordController,
                     hintText: 'Masukkan password lama',
@@ -113,7 +115,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   
                   Text(
                     'Password Baru',
@@ -123,7 +125,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                       color: Colors.black87,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   buildTextField(
                     controller: _newPasswordController,
                     hintText: 'Masukkan password baru',
@@ -141,7 +143,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   
                   SizedBox(
                     width: double.infinity,
@@ -156,7 +158,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: AppColors.greenColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -197,13 +199,13 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
         prefixIcon: prefixIcon != null ? Icon(prefixIcon, color: Colors.grey) : null,
         filled: true,
         fillColor: Colors.grey.shade100,
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey.shade300),
           borderRadius: BorderRadius.circular(12.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.greenColor),
+          borderSide: const BorderSide(color: AppColors.greenColor),
           borderRadius: BorderRadius.circular(12.0),
         ),
       ),
@@ -228,13 +230,13 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
         suffixIcon: suffixIcon,
         filled: true,
         fillColor: Colors.grey.shade100,
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey.shade300),
           borderRadius: BorderRadius.circular(12.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.greenColor),
+          borderSide: const BorderSide(color: AppColors.greenColor),
           borderRadius: BorderRadius.circular(12.0),
         ),
       ),

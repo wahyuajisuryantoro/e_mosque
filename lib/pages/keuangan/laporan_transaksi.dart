@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart';
 
 class LaporanTransaksiPage extends StatefulWidget {
+  const LaporanTransaksiPage({super.key});
+
   @override
   _LaporanTransaksiPageState createState() => _LaporanTransaksiPageState();
 }
@@ -66,7 +68,7 @@ class _LaporanTransaksiPageState extends State<LaporanTransaksiPage> {
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             blurRadius: 8,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -84,9 +86,9 @@ class _LaporanTransaksiPageState extends State<LaporanTransaksiPage> {
           DropdownButton<String>(
             value: _selectedMonth,
             dropdownColor: Colors.white,
-            icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+            icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
             style: GoogleFonts.poppins(color: Colors.black),
-            underline: SizedBox(),
+            underline: const SizedBox(),
             items: _months.map((String month) {
               return DropdownMenuItem<String>(
                 value: month,
@@ -119,7 +121,7 @@ class _LaporanTransaksiPageState extends State<LaporanTransaksiPage> {
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 8,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -145,7 +147,7 @@ class _LaporanTransaksiPageState extends State<LaporanTransaksiPage> {
               ),
             ),
             const SizedBox(height: 10),
-            Divider(color: Colors.white54),
+            const Divider(color: Colors.white54),
             const SizedBox(height: 10),
             _buildInfoRow('Saldo Bulan Sebelumnya', data?['Saldo Bulan Sebelumnya'] ?? '0', Colors.white),
             _buildInfoRow('Total Pemasukan', data?['Total Pemasukan'] ?? '0', Colors.white),

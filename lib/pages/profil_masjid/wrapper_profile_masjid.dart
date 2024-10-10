@@ -9,7 +9,7 @@ import 'package:e_mosque/pages/profil_masjid/sosial_media_masjid.dart';
 import 'package:e_mosque/pages/profil_masjid/tentang_masjid.dart';
 
 class ProfileMasjidWrapper extends StatefulWidget {
-  const ProfileMasjidWrapper({Key? key}) : super(key: key);
+  const ProfileMasjidWrapper({super.key});
 
   @override
   _ProfileMasjidWrapperState createState() => _ProfileMasjidWrapperState();
@@ -20,12 +20,12 @@ class _ProfileMasjidWrapperState extends State<ProfileMasjidWrapper>
   late TabController _tabController;
 
   final List<Tab> myTabs = [
-    Tab(text: 'Informasi'),
-    Tab(text: 'Data Masjid'),
-    Tab(text: 'Tentang'),
-    Tab(text: 'Alamat Masjid'),
-    Tab(text: 'Foto'),
-    Tab(text: 'Sosial Media'),
+    const Tab(text: 'Informasi'),
+    const Tab(text: 'Data Masjid'),
+    const Tab(text: 'Tentang'),
+    const Tab(text: 'Alamat Masjid'),
+    const Tab(text: 'Foto'),
+    const Tab(text: 'Sosial Media'),
   ];
 
   @override
@@ -54,7 +54,7 @@ class _ProfileMasjidWrapperState extends State<ProfileMasjidWrapper>
         ),
         backgroundColor: AppColors.greenColor,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(48.0),
+          preferredSize: const Size.fromHeight(48.0),
           child: Container(
             color: AppColors.greenColor,
             child: TabBar(
@@ -73,7 +73,7 @@ class _ProfileMasjidWrapperState extends State<ProfileMasjidWrapper>
                 fontWeight: FontWeight.normal,
               ),
               tabs: myTabs,
-              indicator: UnderlineTabIndicator(
+              indicator: const UnderlineTabIndicator(
                 borderSide: BorderSide(color: Colors.white, width: 3),
                 insets: EdgeInsets.symmetric(horizontal: 16),
               ),
@@ -86,11 +86,11 @@ class _ProfileMasjidWrapperState extends State<ProfileMasjidWrapper>
         controller: _tabController,
         children: [
           InformasiMasjidScreen(),
-          DataMasjidPage(),
-          TentangMasjidPage(),
-          AlamatMasjidPage(),
-          FotoMasjidPage(),
-          SosialMediaMasjidPage(),
+          const DataMasjidPage(),
+          const TentangMasjidPage(),
+          const AlamatMasjidPage(),
+          const FotoMasjidPage(),
+          const SosialMediaMasjidPage(),
         ],
       ),
     );

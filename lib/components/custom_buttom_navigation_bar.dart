@@ -1,16 +1,17 @@
-import 'package:e_mosque/components/colors.dart';
-import 'package:e_mosque/controllers/notification_controller.dart';
-import 'package:e_mosque/model/user_model.dart';
+import 'package:e_mosque/pages/event/event.dart';
 import 'package:e_mosque/pages/home/home.dart';
 import 'package:e_mosque/pages/notification/notification_screen.dart';
 import 'package:e_mosque/pages/profile_user/profile.dart';
-import 'package:e_mosque/provider/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:e_mosque/components/colors.dart';
+import 'package:e_mosque/controllers/notification_controller.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:badges/badges.dart' as badges;
 
 class CustomNavigationBar extends StatefulWidget {
+  const CustomNavigationBar({Key? key}) : super(key: key);
+
   @override
   _CustomNavigationBarState createState() => _CustomNavigationBarState();
 }
@@ -23,13 +24,12 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
   @override
   void initState() {
     super.initState();
-    User? user = Provider.of<UserProvider>(context, listen: false).user;
-    
 
     _pages = [
-      HomeScreen(),
-      NotificationScreen(),
-      ProfileScreen(),
+      const HomeScreen(),
+      const NotificationScreen(),
+      const EventScreen(),
+      const ProfileScreen(),
     ];
   }
 
@@ -37,22 +37,10 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
     setState(() {
       _selectedIndex = index;
     });
-
-    if (_selectedIndex == 1) { 
-      final notificationProvider =
-          Provider.of<NotificationProvider>(context, listen: false);
-
-      final unreadNotifications = notificationProvider.notifications
-          ?.where((notif) => notif.status == 'unread')
-          .toList();
-
-      if (unreadNotifications != null && unreadNotifications.isNotEmpty) {
-        for (var notif in unreadNotifications) {
-          await notificationProvider.updateNotificationStatus(notif.no, 'read');
-        }
-      }
+    if (index == 1) {
+      final notificationProvider = Provider.of<NotificationProvider>(context, listen: false);
+      await notificationProvider.markAllAsRead();
     }
-
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => _pages[_selectedIndex],
@@ -62,8 +50,6 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    final notificationProvider = Provider.of<NotificationProvider>(context);
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Card(
@@ -75,83 +61,103 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: AppColors.deepGreenGradient,
             ),
             child: NavigationBarTheme(
               data: NavigationBarThemeData(
                 backgroundColor: Colors.transparent,
                 indicatorColor: Colors.green.shade700,
-                labelTextStyle: MaterialStateProperty.all(
-                  TextStyle(
+                labelTextStyle: WidgetStateProperty.all(
+                  const TextStyle(
                     color: Colors.white,
                   ),
                 ),
-                iconTheme: MaterialStateProperty.resolveWith((states) {
-                  if (states.contains(MaterialState.selected)) {
+                iconTheme: WidgetStateProperty.resolveWith((states) {
+                  if (states.contains(WidgetState.selected)) {
                     return IconThemeData(color: Colors.green.shade200);
                   }
-                  return IconThemeData(color: Colors.white70);
+                  return const IconThemeData(color: Colors.white70);
                 }),
               ),
-              child: NavigationBar(
-                selectedIndex: _selectedIndex,
-                onDestinationSelected: _onTap,
-                labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-                destinations: [
-                  // Beranda
-                  NavigationDestination(
-                    icon: SvgPicture.asset(
-                      'assets/icons/home.svg',
-                      width: 24,
-                      height: 24,
-                      colorFilter: ColorFilter.mode(
-                        _selectedIndex == 0 ? Colors.green.shade200 : Colors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    label: 'Beranda',
-                  ),
-                  // Notifikasi
-                  NavigationDestination(
-                    icon: badges.Badge(
-                      badgeContent: Text(
-                        notificationProvider.notifications
-                                ?.where((notif) => notif.status == 'unread')
-                                .length
-                                .toString() ??
-                            '0',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      showBadge: notificationProvider.notifications != null &&
-                          notificationProvider.notifications!
-                              .any((notif) => notif.status == 'unread'),
-                      child: SvgPicture.asset(
-                        'assets/icons/notif.svg',
-                        width: 24,
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          _selectedIndex == 1 ? Colors.green.shade200 : Colors.white,
-                          BlendMode.srcIn,
+              child: Consumer<NotificationProvider>(
+                builder: (context, notificationProvider, child) {
+                  int unreadCount = notificationProvider.notifications
+                          ?.where((notif) => notif.status == 'unread')
+                          .length ??
+                      0;
+
+                  return NavigationBar(
+                    selectedIndex: _selectedIndex,
+                    onDestinationSelected: _onTap,
+                    labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+                    destinations: [
+                      NavigationDestination(
+                        icon: SvgPicture.asset(
+                          'assets/icons/beranda.svg',
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(
+                            _selectedIndex == 0
+                                ? Colors.green.shade200
+                                : Colors.white,
+                            BlendMode.srcIn,
+                          ),
                         ),
+                        label: 'Beranda',
                       ),
-                    ),
-                    label: 'Notifikasi',
-                  ),
-                  // Profil
-                  NavigationDestination(
-                    icon: SvgPicture.asset(
-                      'assets/icons/profile.svg',
-                      width: 24,
-                      height: 24,
-                      colorFilter: ColorFilter.mode(
-                        _selectedIndex == 2 ? Colors.green.shade200 : Colors.white,
-                        BlendMode.srcIn,
+                      NavigationDestination(
+                        icon: badges.Badge(
+                          badgeContent: Text(
+                            unreadCount.toString(),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          showBadge: unreadCount > 0,
+                          child: SvgPicture.asset(
+                            'assets/icons/notifikasi.svg',
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
+                              _selectedIndex == 1
+                                  ? Colors.green.shade200
+                                  : Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                        label: 'Notifikasi',
                       ),
-                    ),
-                    label: 'Profil',
-                  ),
-                ],
+                      NavigationDestination(
+                        icon: SvgPicture.asset(
+                          'assets/icons/event.svg',
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(
+                            _selectedIndex == 2
+                                ? Colors.green.shade200
+                                : Colors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        label: 'Event',
+                      ),
+                      NavigationDestination(
+                        icon: SvgPicture.asset(
+                          'assets/icons/profile_2.svg',
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(
+                            _selectedIndex == 3
+                                ? Colors.green.shade200
+                                : Colors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        label: 'Profil',
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),

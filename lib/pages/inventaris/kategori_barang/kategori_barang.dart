@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Asumsi AppColors didefinisikan di sini
 
 class KategoriBarangPage extends StatefulWidget {
+  const KategoriBarangPage({super.key});
+
   @override
   _KategoriBarangPageState createState() => _KategoriBarangPageState();
 }
@@ -119,7 +121,7 @@ class _KategoriBarangPageState extends State<KategoriBarangPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EditKategoriBarangPage()));
+                        builder: (context) => const EditKategoriBarangPage()));
               },
             ),
           ],
@@ -135,7 +137,7 @@ class _KategoriBarangPageState extends State<KategoriBarangPage> {
       padding: const EdgeInsets.all(16.0),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Color(0xffb1feb1),
+        color: const Color(0xffb1feb1),
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(

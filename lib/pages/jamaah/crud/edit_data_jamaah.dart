@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditJamaahScreen extends StatefulWidget {
+  const EditJamaahScreen({super.key});
+
   @override
   _EditJamaahScreenState createState() => _EditJamaahScreenState();
 }
@@ -43,7 +45,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
   String _selectedMaritalStatus = 'Menikah';
   String _selectedJamaahStatus = 'Jamaah';
   String _selectedGolDarah = 'A';
-  String _selectedEkonomiStatus = 'Mampu';
+  final String _selectedEkonomiStatus = 'Mampu';
 
   // Dropdown Options
   final List<String> _genderOptions = ['Laki-laki', 'Perempuan'];
@@ -95,7 +97,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -111,7 +113,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
         centerTitle: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
+            icon: const Icon(Icons.delete, color: Colors.red),
             onPressed: () {
               GlobalAlert.showAlert(
                 context: context,
@@ -147,7 +149,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
                     ),
                     style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Telepon
                   Text(
@@ -165,7 +167,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
                     ),
                     style: GoogleFonts.poppins(),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Tombol Versi Lengkap
                   TextButton(
@@ -183,13 +185,13 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
                   ),
                   // Form Versi Lengkap
                   if (_isVersiLengkap) _buildVersiLengkapForm(),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildUploadPhotoButton(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(child: _buildSimpanButton()),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(child: _buildKembaliButton()),
                     ],
                   ),
@@ -261,7 +263,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
 
         // Jenis Kelamin dan Status Pernikahan
         Row(
@@ -290,7 +292,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
                 }).toList(),
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: DropdownButtonFormField<String>(
                 decoration: InputDecoration(
@@ -317,7 +319,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
 
         // Status Jamaah dan Golongan Darah
         Row(
@@ -346,7 +348,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
                 }).toList(),
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: DropdownButtonFormField<String>(
                 decoration: InputDecoration(
@@ -373,12 +375,12 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
 
         // Alamat
         _buildAddressSection(),
 
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
 
         // No Telepon dan Email
         Text(
@@ -498,7 +500,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
+                    const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
                     Text(
                       'Upload Foto Masjid',
                       style: GoogleFonts.poppins(color: Colors.grey),
@@ -526,13 +528,13 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
                   onTap: _deleteImage,
                   child: Container(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [Colors.red, Colors.redAccent],
                       ),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     padding: const EdgeInsets.all(6),
-                    child: Icon(Icons.delete, color: Colors.white),
+                    child: const Icon(Icons.delete, color: Colors.white),
                   ),
                 ),
               ),
@@ -543,7 +545,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
   Widget _buildSimpanButton() {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [Colors.green, Colors.greenAccent],
         ),
         borderRadius: BorderRadius.circular(10),
@@ -552,7 +554,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -571,7 +573,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
   Widget _buildKembaliButton() {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [Colors.red, Colors.redAccent],
         ),
         borderRadius: BorderRadius.circular(10),
@@ -580,7 +582,7 @@ class _EditJamaahScreenState extends State<EditJamaahScreen> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

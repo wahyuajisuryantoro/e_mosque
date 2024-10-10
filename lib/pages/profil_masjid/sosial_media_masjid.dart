@@ -6,7 +6,7 @@ import 'package:e_mosque/components/alert.dart';
 import 'package:e_mosque/components/colors.dart';
 
 class SosialMediaMasjidPage extends StatefulWidget {
-  const SosialMediaMasjidPage({Key? key}) : super(key: key);
+  const SosialMediaMasjidPage({super.key});
 
   @override
   _SosialMediaMasjidPageState createState() => _SosialMediaMasjidPageState();
@@ -54,7 +54,7 @@ class _SosialMediaMasjidPageState extends State<SosialMediaMasjidPage>
                 fontWeight: FontWeight.bold,
                 foreground: Paint()
                   ..shader = AppColors.primaryGradient.createShader(
-                    Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
+                    const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
                   ),
               ),
             ),
@@ -106,7 +106,7 @@ class _SosialMediaMasjidPageState extends State<SosialMediaMasjidPage>
         hintText: placeholder,
         hintStyle:
             GoogleFonts.poppins(fontSize: 14, color: Colors.grey.shade400),
-        contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         filled: true,
         fillColor: Colors.white,
         enabledBorder: OutlineInputBorder(
@@ -114,7 +114,7 @@ class _SosialMediaMasjidPageState extends State<SosialMediaMasjidPage>
           borderRadius: BorderRadius.circular(12),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.greenColor),
+          borderSide: const BorderSide(color: AppColors.greenColor),
           borderRadius: BorderRadius.circular(12),
         ),
       ),
@@ -167,7 +167,7 @@ class _SosialMediaMasjidPageState extends State<SosialMediaMasjidPage>
           ),
           child: Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
               'Simpan',
               style: GoogleFonts.poppins(

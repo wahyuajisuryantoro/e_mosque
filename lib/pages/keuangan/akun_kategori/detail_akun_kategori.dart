@@ -8,6 +8,8 @@ class DetailAkunKeuanganPage extends StatelessWidget {
   final String position = 'Pengeluaran';
   final String deskripsi = 'Deskripsi akun operasional';
 
+  const DetailAkunKeuanganPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +18,7 @@ class DetailAkunKeuanganPage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },

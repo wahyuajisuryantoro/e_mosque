@@ -53,7 +53,6 @@ dependencies:
   badges: ^3.1.2
   flutter_dash: ^1.0.0
   add_2_calendar: ^3.0.1
-  share_plus: ^10.0.2
   cached_network_image: ^3.0.0
   font_awesome_flutter: ^10.1.0
   dotted_border: ^2.0.0

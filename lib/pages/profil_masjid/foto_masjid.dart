@@ -8,7 +8,7 @@ import 'package:e_mosque/components/colors.dart';
 import 'package:e_mosque/controllers/masjid_controller.dart';
 
 class FotoMasjidPage extends StatefulWidget {
-  const FotoMasjidPage({Key? key}) : super(key: key);
+  const FotoMasjidPage({super.key});
 
   @override
   _FotoMasjidPageState createState() => _FotoMasjidPageState();
@@ -141,7 +141,7 @@ class _FotoMasjidPageState extends State<FotoMasjidPage> {
                   color: Colors.black45,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(
                     Icons.camera_alt,
                     color: Colors.white70,
@@ -179,7 +179,7 @@ class _FotoMasjidPageState extends State<FotoMasjidPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
+                const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
                 Text(
                   'Upload Foto Masjid',
                   style: GoogleFonts.poppins(color: Colors.grey),

@@ -3,6 +3,7 @@ import 'package:e_mosque/controllers/berita_controller.dart';
 import 'package:e_mosque/controllers/notification_controller.dart';
 import 'package:e_mosque/controllers/masjid_controller.dart';
 import 'package:e_mosque/controllers/slider_controller.dart';
+import 'package:e_mosque/controllers/takmir_controller.dart';
 import 'package:e_mosque/pages/auth/auth.dart';
 import 'package:e_mosque/pages/home/home.dart';
 import 'package:e_mosque/pages/onboarding/onboarding_screen.dart';
@@ -16,7 +17,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('id_ID', null);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
         ChangeNotifierProvider(create: (_) => BeritaProvider()),
         ChangeNotifierProvider(create: (_) => AcaraProvider()),
+        ChangeNotifierProvider(create: (_) => TakmirProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

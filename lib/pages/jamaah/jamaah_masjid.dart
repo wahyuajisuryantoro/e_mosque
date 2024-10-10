@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Mengimpor AppColors
 
 class JamaahMasjidScreen extends StatefulWidget {
+  const JamaahMasjidScreen({super.key});
+
   @override
   _JamaahMasjidScreenState createState() => _JamaahMasjidScreenState();
 }
@@ -33,7 +35,7 @@ class _JamaahMasjidScreenState extends State<JamaahMasjidScreen> with SingleTick
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black), 
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black), 
           onPressed: () {
             Navigator.pop(context);
           },
@@ -72,11 +74,11 @@ class _JamaahMasjidScreenState extends State<JamaahMasjidScreen> with SingleTick
                   fontSize: 14,
                   fontWeight: FontWeight.normal,
                 ),
-                tabs: [
+                tabs: const [
                   Tab(text: 'Statistik Jamaah'),
                   Tab(text: 'Data Jamaah'),
                 ],
-                indicator: UnderlineTabIndicator(
+                indicator: const UnderlineTabIndicator(
                   borderSide: BorderSide(color: Colors.white, width: 3),
                   insets: EdgeInsets.symmetric(horizontal: 16),
                 ),
@@ -85,9 +87,9 @@ class _JamaahMasjidScreenState extends State<JamaahMasjidScreen> with SingleTick
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(top: 10),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: const BoxDecoration(
                 color: Colors.white, 
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),

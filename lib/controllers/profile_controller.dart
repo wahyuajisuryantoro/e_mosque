@@ -23,7 +23,6 @@ class ProfileController {
     required BuildContext context,
   }) async {
     try {
-      // Validasi data sebelum melakukan request
       if (name.isEmpty || email.isEmpty || phone.isEmpty || address.isEmpty || city.isEmpty || birth.isEmpty || sex.isEmpty) {
         GlobalAlert.showAlert(
           context: context,
@@ -33,8 +32,6 @@ class ProfileController {
         );
         return false;
       }
-
-      // Jika email tidak valid
       if (!_validateEmail(email)) {
         GlobalAlert.showAlert(
           context: context,
@@ -44,8 +41,6 @@ class ProfileController {
         );
         return false;
       }
-
-      // Jika nomor telepon tidak valid (misal hanya angka dan panjang minimal 10)
       if (!_validatePhone(phone)) {
         GlobalAlert.showAlert(
           context: context,
@@ -57,8 +52,6 @@ class ProfileController {
       }
 
       var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-
-      // Menambahkan field ke dalam request
       request.fields['user_id'] = userId;
       request.fields['name'] = name;
       request.fields['email'] = email;
@@ -67,8 +60,6 @@ class ProfileController {
       request.fields['city'] = city;
       request.fields['birth'] = birth;
       request.fields['sex'] = sex;
-
-      // Menambahkan file gambar jika ada
       if (picture != null) {
         var pictureStream = http.ByteStream(picture.openRead());
         var pictureLength = await picture.length();
@@ -81,13 +72,10 @@ class ProfileController {
         request.files.add(multipartFile);
         print("Gambar terlampir: ${picture.path}");
       }
-
-      // Mengirim request
       var response = await request.send();
       var responseBody = await http.Response.fromStream(response);
       final Map<String, dynamic> responseData = jsonDecode(responseBody.body);
 
-      // Cek respons dari server
       if (response.statusCode == 200 && responseData['status'] == 'success') {
         GlobalAlert.showAlert(
           context: context,
@@ -107,7 +95,6 @@ class ProfileController {
         return false;
       }
     } catch (e) {
-      // Tangani error jika ada
       print("Terjadi kesalahan: $e");
       GlobalAlert.showAlert(
         context: context,
@@ -119,13 +106,11 @@ class ProfileController {
     }
   }
 
-  // Fungsi validasi email
   bool _validateEmail(String email) {
     final emailRegExp = RegExp(r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
     return emailRegExp.hasMatch(email);
   }
 
-  // Fungsi validasi nomor telepon (hanya angka dan panjang minimal 10)
   bool _validatePhone(String phone) {
     final phoneRegExp = RegExp(r'^[0-9]{10,}$');
     return phoneRegExp.hasMatch(phone);

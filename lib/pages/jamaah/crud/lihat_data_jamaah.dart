@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/custom_buttom_navigation_bar.dart'; // Import Custom Navigation Bar
 
 class LihatDataJamaahScreen extends StatefulWidget {
+  const LihatDataJamaahScreen({super.key});
+
   @override
   _LihatDataJamaahScreenState createState() => _LihatDataJamaahScreenState();
 }
@@ -34,11 +36,11 @@ class _LihatDataJamaahScreenState extends State<LihatDataJamaahScreen> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     elevation: 4,
-                    child: Container(
+                    child: SizedBox(
                       width: 150, 
                       height: 150,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Center(
                           child: Icon(
                             Icons.person, 
@@ -49,7 +51,7 @@ class _LihatDataJamaahScreenState extends State<LihatDataJamaahScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Card(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(

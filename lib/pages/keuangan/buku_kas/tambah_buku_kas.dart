@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Pastikan komponen warna tersedia
 
 class TambahBukuKasPage extends StatefulWidget {
+  const TambahBukuKasPage({super.key});
+
   @override
   _TambahBukuKasPageState createState() => _TambahBukuKasPageState();
 }
@@ -20,7 +22,7 @@ class _TambahBukuKasPageState extends State<TambahBukuKasPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },

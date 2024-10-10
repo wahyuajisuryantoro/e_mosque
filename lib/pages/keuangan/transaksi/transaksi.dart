@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Pastikan komponen AppColors sudah ada
 
 class TransaksiPage extends StatelessWidget {
-  const TransaksiPage({Key? key}) : super(key: key);
+  const TransaksiPage({super.key});
 
   @override
   Widget build(BuildContext context) {

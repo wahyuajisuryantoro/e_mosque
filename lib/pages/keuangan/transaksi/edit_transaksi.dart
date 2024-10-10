@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart';
 
 class EditTransaksiPage extends StatefulWidget {
+  const EditTransaksiPage({super.key});
+
   @override
   _EditTransaksiPageState createState() => _EditTransaksiPageState();
 }
@@ -27,7 +29,7 @@ class _EditTransaksiPageState extends State<EditTransaksiPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -186,7 +188,7 @@ class _EditTransaksiPageState extends State<EditTransaksiPage> {
         ),
         onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Transaksi berhasil disimpan!')),
+            const SnackBar(content: Text('Transaksi berhasil disimpan!')),
           );
         },
         child: Text(

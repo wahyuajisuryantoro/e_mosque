@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DataJamaahTab extends StatefulWidget {
+  const DataJamaahTab({super.key});
+
   @override
   _DataJamaahTabState createState() => _DataJamaahTabState();
 }
 
 class _DataJamaahTabState extends State<DataJamaahTab> {
-  String _selectedFilter = 'Semua';
+  final String _selectedFilter = 'Semua';
   final List<String> _filters = [
     'Semua',
     'Mampu',
@@ -82,7 +84,7 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
                 },
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   backgroundColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -91,8 +93,8 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.add, color: Colors.white),
-                    SizedBox(width: 8),
+                    const Icon(Icons.add, color: Colors.white),
+                    const SizedBox(width: 8),
                     Text(
                       'Tambah Jamaah',
                       style: GoogleFonts.poppins(
@@ -106,7 +108,7 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
               ),
             ),
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -131,12 +133,12 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 30,
                         backgroundImage: AssetImage(
                             'assets/images/user.png'), 
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,10 +150,10 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text('No. HP: $noHp',
                                 style: GoogleFonts.poppins(fontSize: 14)),
-                            SizedBox(height: 5,),
+                            const SizedBox(height: 5,),
                             Text('Status: $status',
                                 style: GoogleFonts.poppins(fontSize: 14)),
                           ],

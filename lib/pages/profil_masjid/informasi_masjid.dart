@@ -7,6 +7,8 @@ import 'package:e_mosque/model/masjid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InformasiMasjidScreen extends StatefulWidget {
+  const InformasiMasjidScreen({super.key});
+
   @override
   _InformasiMasjidScreenState createState() => _InformasiMasjidScreenState();
 }
@@ -32,7 +34,7 @@ class _InformasiMasjidScreenState extends State<InformasiMasjidScreen> {
       body: Consumer<MasjidProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (provider.errorMessage != null) {
             return Center(child: Text(provider.errorMessage!));
           } else if (provider.masjid != null) {
@@ -41,18 +43,18 @@ class _InformasiMasjidScreenState extends State<InformasiMasjidScreen> {
               child: Column(
                 children: [
                   _buildHeader(masjid),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildMasjidDataCard(masjid),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildAlamatMasjidCard(masjid),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildSosialMediaCard(masjid),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             );
           } else {
-            return Center(child: Text('Tidak ada data masjid.'));
+            return const Center(child: Text('Tidak ada data masjid.'));
           }
         },
       ),
@@ -64,7 +66,7 @@ class _InformasiMasjidScreenState extends State<InformasiMasjidScreen> {
       children: [
         Container(
           height: 220,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: AppColors.primaryGradient,
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(40),
@@ -86,10 +88,10 @@ class _InformasiMasjidScreenState extends State<InformasiMasjidScreen> {
                         ? NetworkImage(masjid.picture!)
                         : null,
                 child: masjid.picture == null || masjid.picture!.isEmpty
-                    ? Icon(Icons.account_balance, size: 60, color: Colors.grey)
+                    ? const Icon(Icons.account_balance, size: 60, color: Colors.grey)
                     : null,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 masjid.name ?? 'Nama Masjid',
                 style: GoogleFonts.poppins(
@@ -126,19 +128,19 @@ class _InformasiMasjidScreenState extends State<InformasiMasjidScreen> {
                   color: AppColors.greenColor,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildInfoRow(
                   Icons.landscape, 'Luas Tanah', '${masjid.luasTanah} m²'),
-              Divider(),
+              const Divider(),
               _buildInfoRow(
                   Icons.home, 'Luas Bangunan', '${masjid.luasBangunan} m²'),
-              Divider(),
+              const Divider(),
               _buildInfoRow(
                   Icons.place, 'Status Tanah', masjid.statusTanah ?? ''),
-              Divider(),
+              const Divider(),
               _buildInfoRow(Icons.calendar_today, 'Tahun Berdiri',
                   '${masjid.tahunBerdiri}'),
-              Divider(),
+              const Divider(),
               _buildInfoRow(
                   Icons.assignment, 'Legalitas', masjid.legalitas ?? ''),
             ],
@@ -169,14 +171,14 @@ class _InformasiMasjidScreenState extends State<InformasiMasjidScreen> {
                   color: AppColors.blueGradient.colors.first,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildInfoRow(Icons.location_on, 'Alamat', masjid.address ?? ''),
-              Divider(),
+              const Divider(),
               _buildInfoRow(
                   Icons.location_city, 'Kota / Kabupaten', masjid.city ?? ''),
-              Divider(),
+              const Divider(),
               _buildInfoRow(Icons.phone, 'Telepon', masjid.phone ?? ''),
-              Divider(),
+              const Divider(),
               _buildInfoRow(Icons.email, 'Email', masjid.email ?? ''),
             ],
           ),
@@ -206,19 +208,19 @@ class _InformasiMasjidScreenState extends State<InformasiMasjidScreen> {
                   color: AppColors.purpleGradient.colors.first,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildSocialMediaRow(FontAwesomeIcons.facebook, 'Facebook',
                   masjid.facebook ?? 'Tidak tersedia'),
-              Divider(),
+              const Divider(),
               _buildSocialMediaRow(FontAwesomeIcons.twitter, 'Twitter',
                   masjid.twitter ?? 'Tidak tersedia'),
-              Divider(),
+              const Divider(),
               _buildSocialMediaRow(FontAwesomeIcons.instagram, 'Instagram',
                   masjid.instagram ?? 'Tidak tersedia'),
-              Divider(),
+              const Divider(),
               _buildSocialMediaRow(FontAwesomeIcons.youtube, 'YouTube',
                   masjid.youtube ?? 'Tidak tersedia'),
-              Divider(),
+              const Divider(),
               _buildSocialMediaRow(FontAwesomeIcons.tiktok, 'TikTok',
                   masjid.tiktok ?? 'Tidak tersedia'),
             ],
@@ -237,11 +239,11 @@ class _InformasiMasjidScreenState extends State<InformasiMasjidScreen> {
             icon,
             color: AppColors.greenColor,
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Expanded(
             flex: 2,
             child: Text(
-              "$label",
+              label,
               style: GoogleFonts.poppins(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -278,11 +280,11 @@ class _InformasiMasjidScreenState extends State<InformasiMasjidScreen> {
               icon,
               color: AppColors.purpleGradient.colors.first,
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               flex: 2,
               child: Text(
-                "$label",
+                label,
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

@@ -5,6 +5,8 @@ import 'package:html/parser.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HubungiKamiScreen extends StatefulWidget {
+  const HubungiKamiScreen({super.key});
+
   @override
   _HubungiKamiScreenState createState() => _HubungiKamiScreenState();
 }
@@ -150,7 +152,7 @@ class _HubungiKamiScreenState extends State<HubungiKamiScreen> {
                   ),
                 ],
               )
-            : Center(child: CircularProgressIndicator()),
+            : const Center(child: CircularProgressIndicator()),
       ),
     );
   }

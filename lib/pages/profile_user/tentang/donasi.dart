@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 
 class DonasiScreen extends StatefulWidget {
+  const DonasiScreen({super.key});
+
   @override
   _DonasiScreenState createState() => _DonasiScreenState();
 }
@@ -171,7 +173,7 @@ class _DonasiScreenState extends State<DonasiScreen> {
                   ],
                 ),
               )
-            : Center(child: CircularProgressIndicator()),
+            : const Center(child: CircularProgressIndicator()),
       ),
     );
   }

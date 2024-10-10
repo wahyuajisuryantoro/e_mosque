@@ -105,9 +105,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Container(
               height: 300, 
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: AppColors.deepGreenGradient,
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40),
                 ),

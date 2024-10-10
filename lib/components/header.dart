@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Header extends StatelessWidget {
+  const Header({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 200,
-      padding: EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(16.0),
+      decoration: const BoxDecoration(
         gradient: AppColors.primaryGradient,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
@@ -18,7 +20,7 @@ class Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -42,7 +44,7 @@ class Header extends StatelessWidget {
                   ),
                 ],
               ),
-              CircleAvatar(
+              const CircleAvatar(
                 backgroundImage: AssetImage(
                     'assets/images/user.png'), 
                 radius: 25,

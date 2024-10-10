@@ -14,6 +14,8 @@ class DetailItemBarangPage extends StatelessWidget {
     'status': 'Baik', // Status bisa "Baik", "Rusak Ringan", atau "Rusak"
   };
 
+  DetailItemBarangPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +24,7 @@ class DetailItemBarangPage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -60,7 +62,7 @@ class DetailItemBarangPage extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Color(0xffb1feb1),
+                      color: const Color(0xffb1feb1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -118,7 +120,7 @@ class DetailItemBarangPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            Divider(),
+            const Divider(),
             Text(
               'Deskripsi',
               style: GoogleFonts.poppins(

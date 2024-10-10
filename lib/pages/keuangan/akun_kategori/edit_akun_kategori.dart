@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart'; // Import class warna sesuai kebutuhan
 
 class EditAkunKategoriPage extends StatefulWidget {
-  const EditAkunKategoriPage({Key? key}) : super(key: key);
+  const EditAkunKategoriPage({super.key});
 
   @override
   _EditAkunKategoriPageState createState() => _EditAkunKategoriPageState();
@@ -40,7 +40,7 @@ class _EditAkunKategoriPageState extends State<EditAkunKategoriPage> {
         centerTitle: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
+            icon: const Icon(Icons.delete, color: Colors.red),
             onPressed: () {
               GlobalAlert.showAlert(
                 context: context,

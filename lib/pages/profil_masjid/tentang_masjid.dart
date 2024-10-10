@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:e_mosque/controllers/masjid_controller.dart';
 
 class TentangMasjidPage extends StatefulWidget {
-  const TentangMasjidPage({Key? key}) : super(key: key);
+  const TentangMasjidPage({super.key});
 
   @override
   _TentangMasjidPageState createState() => _TentangMasjidPageState();
@@ -55,12 +55,12 @@ class _TentangMasjidPageState extends State<TentangMasjidPage> {
                   fontWeight: FontWeight.bold,
                   foreground: Paint()
                     ..shader = AppColors.primaryGradient.createShader(
-                      Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
+                      const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
                     ),
                 ),
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Text(
               'Deskripsi Masjid:',
               style: GoogleFonts.poppins(
@@ -79,7 +79,7 @@ class _TentangMasjidPageState extends State<TentangMasjidPage> {
                 hintText: 'Tulis deskripsi tentang masjid...',
                 hintStyle:
                     GoogleFonts.poppins(fontSize: 14, color: Colors.grey.shade400),
-                contentPadding: EdgeInsets.symmetric(vertical: 60, horizontal: 16),
+                contentPadding: const EdgeInsets.symmetric(vertical: 60, horizontal: 16),
                 filled: true,
                 fillColor: Colors.white,
                 enabledBorder: OutlineInputBorder(
@@ -87,7 +87,7 @@ class _TentangMasjidPageState extends State<TentangMasjidPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.greenColor),
+                  borderSide: const BorderSide(color: AppColors.greenColor),
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
@@ -148,7 +148,7 @@ class _TentangMasjidPageState extends State<TentangMasjidPage> {
           ),
           child: Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
               'Simpan',
               style: GoogleFonts.poppins(

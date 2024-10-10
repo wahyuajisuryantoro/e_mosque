@@ -4,6 +4,8 @@ import 'package:html/parser.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TentangKamiScreen extends StatefulWidget {
+  const TentangKamiScreen({super.key});
+
   @override
   _TentangKamiScreenState createState() => _TentangKamiScreenState();
 }
@@ -79,7 +81,7 @@ class _TentangKamiScreenState extends State<TentangKamiScreen> {
                 ),
               ),
             )
-          : Center(child: CircularProgressIndicator()),
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }
