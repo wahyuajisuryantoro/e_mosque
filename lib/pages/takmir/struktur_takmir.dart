@@ -17,6 +17,13 @@ class StrukturTakmir extends StatefulWidget {
 }
 
 class _StrukturTakmirState extends State<StrukturTakmir> {
+  static const String imageBaseUrl = 'https://emasjid.id/amm/upload/picture/';
+  final Map<String, int> jabatanPrioritas = {
+    'Ketua': 1,
+    'Sekretaris': 2,
+    'Bendahara': 3,
+  };
+
   @override
   Widget build(BuildContext context) {
     if (widget.takmirList.isEmpty) {
@@ -30,19 +37,34 @@ class _StrukturTakmirState extends State<StrukturTakmir> {
         ),
       );
     }
+    widget.takmirList.sort((a, b) {
+      int jabatanA = jabatanPrioritas[a.jabatan ?? ''] ?? 99;
+      int jabatanB = jabatanPrioritas[b.jabatan ?? ''] ?? 99;
 
-    // Sort takmirList by noTakmirJabatan
-    widget.takmirList.sort(
-        (a, b) => a.noTakmirJabatan.compareTo(b.noTakmirJabatan));
+      if (jabatanA == jabatanB) {
+        return a.noTakmirJabatan.compareTo(b.noTakmirJabatan);
+      }
+
+      return jabatanA.compareTo(jabatanB);
+    });
+
+    Map<String, List<Takmir>> groupedTakmir = {};
+    for (var takmir in widget.takmirList) {
+      String jabatan = takmir.jabatan ?? 'Jabatan tidak tersedia';
+      if (!groupedTakmir.containsKey(jabatan)) {
+        groupedTakmir[jabatan] = [];
+      }
+      groupedTakmir[jabatan]!.add(takmir);
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView( // Make the content scrollable
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Card(
                 color: Colors.white,
                 elevation: 4,
                 shape: RoundedRectangleBorder(
@@ -66,15 +88,33 @@ class _StrukturTakmirState extends State<StrukturTakmir> {
                       ),
                       const SizedBox(height: 20),
                       Column(
-                        children: widget.takmirList.map((takmir) {
+                        children: groupedTakmir.entries.map((entry) {
+                          String jabatan = entry.key;
+                          List<Takmir> takmirList = entry.value;
+
                           return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildJabatanRow(
-                                jabatan: takmir.jabatan,
-                                nama: takmir.name,
-                                imageUrl: takmir.picture,
+                              Text(
+                                '$jabatan:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const SizedBox(height: 10),
+                              Column(
+                                children: takmirList.map((takmir) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 5),
+                                    child: _buildTakmirRow(
+                                      nama: takmir.name,
+                                      imageUrl: takmir.picture ?? '', 
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(height: 20),
                             ],
                           );
                         }).toList(),
@@ -83,40 +123,27 @@ class _StrukturTakmirState extends State<StrukturTakmir> {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  // Function to build a row for each takmir member
-  Widget _buildJabatanRow({
-    required String jabatan,
+  Widget _buildTakmirRow({
     required String nama,
     required String imageUrl,
   }) {
     return Row(
       children: [
-        Expanded(
-          flex: 3,
-          child: Text(
-            '$jabatan:',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
         CircleAvatar(
           radius: 20,
           backgroundImage: imageUrl.isNotEmpty
-              ? NetworkImage(imageUrl)
+              ? NetworkImage('$imageBaseUrl$imageUrl')
               : const AssetImage('assets/images/user.png') as ImageProvider,
         ),
         const SizedBox(width: 10),
         Expanded(
-          flex: 3,
           child: Text(
             nama,
             style: GoogleFonts.poppins(

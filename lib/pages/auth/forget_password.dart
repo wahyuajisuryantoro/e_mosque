@@ -44,7 +44,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       body: SafeArea(
         child: GestureDetector(
           onTap: () {
-            FocusScope.of(context).unfocus(); // Dismiss keyboard
+            FocusScope.of(context).unfocus(); 
           },
           child: SingleChildScrollView(
             child: Container(

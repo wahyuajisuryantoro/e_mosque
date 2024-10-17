@@ -1,32 +1,69 @@
+import 'dart:io';
 import 'package:e_mosque/components/alert.dart';
+import 'package:e_mosque/components/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:e_mosque/components/colors.dart'; // Menggunakan AppColors yang berisi primaryGradient dan secondaryGradient
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:e_mosque/controllers/takmir_controller.dart';
 
 class EditTakmirScreen extends StatefulWidget {
-  const EditTakmirScreen({super.key});
+  final int takmirNo;
+
+  const EditTakmirScreen({super.key, required this.takmirNo});
 
   @override
   _EditTakmirScreenState createState() => _EditTakmirScreenState();
 }
 
 class _EditTakmirScreenState extends State<EditTakmirScreen> {
-  // Dropdown selections
-  String _selectedJabatan = 'Ketua';
-  final List<String> _jabatanOptions = ['Ketua', 'Bendahara', 'Sekretaris'];
+  late TextEditingController _namaController;
+  late TextEditingController _alamatController;
+  late TextEditingController _teleponController;
+  late TextEditingController _emailController;
+  String? _selectedJabatan = '';
+  String? _currentPicture;
+  File? _selectedImage;
 
-  // Predefined values (value yang sudah ada)
-  final TextEditingController _namaController =
-      TextEditingController(text: 'Fulan');
-  final TextEditingController _alamatController =
-      TextEditingController(text: 'Jalan ...');
-  final TextEditingController _teleponController =
-      TextEditingController(text: '08123456789');
-  final TextEditingController _emailController =
-      TextEditingController(text: 'fulan@example.com');
+  @override
+  void initState() {
+    super.initState();
+    _loadTakmirData();
+  }
+
+  void _loadTakmirData() {
+  final takmirProvider = Provider.of<TakmirProvider>(context, listen: false);
+  final takmir =
+      takmirProvider.takmirList.firstWhere((t) => t.no == widget.takmirNo);
+
+  _namaController = TextEditingController(text: takmir.name);
+  _alamatController = TextEditingController(text: takmir.address);
+  _teleponController = TextEditingController(text: takmir.phone);
+  _emailController = TextEditingController(text: takmir.email ?? '');
+  _selectedJabatan = takmir.jabatan != null &&
+          takmirProvider.jabatanList
+              .any((jabatan) => jabatan['name'] == takmir.jabatan)
+      ? takmir.jabatan!
+      : null;
+
+  _currentPicture = takmir.picture;
+}
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+        _currentPicture = null;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final takmirProvider = Provider.of<TakmirProvider>(context, listen: true);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -50,168 +87,153 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
           IconButton(
             icon: const Icon(Icons.delete, color: Colors.red),
             onPressed: () {
-              // Logika untuk menghapus data
-              GlobalAlert.showAlert(
+              GlobalAlert.showConfirmation(
                 context: context,
                 title: 'Konfirmasi Hapus',
                 message: 'Apakah Anda yakin ingin menghapus data takmir ini?',
-                type: AlertType.warning,
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal',
+                onConfirm: () async {
+                  final takmirProvider =
+                      Provider.of<TakmirProvider>(context, listen: false);
+                  bool success = await takmirProvider.deleteDataTakmir(
+                    no: widget.takmirNo,
+                    username: takmirProvider.takmirList
+                        .firstWhere((t) => t.no == widget.takmirNo)
+                        .username,
+                  );
+                  if (success) {
+                    Navigator.pop(
+                        context);
+                    GlobalAlert.showAlert(
+                      context: context,
+                      title: 'Sukses',
+                      message: 'Data takmir berhasil dihapus.',
+                      type: AlertType.success,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    );
+                  } else {
+                    GlobalAlert.showAlert(
+                      context: context,
+                      title: 'Gagal',
+                      message:
+                          'Gagal menghapus data takmir: ${takmirProvider.errorMessage}',
+                      type: AlertType.error,
+                    );
+                  }
+                },
               );
             },
           ),
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Dropdown Jabatan
-                  Text(
-                    'Jabatan:',
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    value: _selectedJabatan,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedJabatan = value!;
-                      });
-                    },
-                    items: _jabatanOptions.map((jabatan) {
-                      return DropdownMenuItem(
-                        value: jabatan,
-                        child: Text(jabatan, style: GoogleFonts.poppins()),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Nama Lengkap
-                  Text(
-                    'Nama Lengkap:',
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _namaController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    style: GoogleFonts.poppins(),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Alamat
-                  Text(
-                    'Alamat:',
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _alamatController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    style: GoogleFonts.poppins(),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // No. Telepon / HP
-                  Text(
-                    'No. Telepon / HP:',
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _teleponController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    style: GoogleFonts.poppins(),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Email
-                  Text(
-                    'Email:',
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    style: GoogleFonts.poppins(),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Upload Foto
-                  _buildPhoto(),
-                  const SizedBox(height: 20),
-
-                  // Tombol Simpan dan Kembali
-                  Row(
-                    children: [
-                      Expanded(child: _buildSimpanButton()),
-                      const SizedBox(width: 10),
-                      Expanded(child: _buildKembaliButton()),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Fungsi untuk mengunggah dan menghapus foto
-  Widget _buildPhoto() {
-    // Placeholder untuk image jika ada implementasi image picker
-    return GestureDetector(
-      onTap: () {
-        // Logika upload foto
-      },
-      child: Container(
-        height: 150,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
               Text(
-                'Upload Foto Takmir',
-                style: GoogleFonts.poppins(color: Colors.grey),
+                'Jabatan:',
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+               DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                value: _selectedJabatan,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedJabatan = value;
+                  });
+                },
+                items: takmirProvider.jabatanList
+                    .map<DropdownMenuItem<String>>((jabatan) {
+                  return DropdownMenuItem<String>(
+                    value: jabatan['name'] as String,
+                    child: Text(jabatan['name'], style: GoogleFonts.poppins()),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Nama Lengkap:',
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _namaController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                style: GoogleFonts.poppins(),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Alamat:',
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _alamatController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                style: GoogleFonts.poppins(),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'No. Telepon / HP:',
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _teleponController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                style: GoogleFonts.poppins(),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Email:',
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                style: GoogleFonts.poppins(),
+              ),
+              const SizedBox(height: 16),
+              _buildPhoto(),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(child: _buildSimpanButton()),
+                  const SizedBox(width: 10),
+                  Expanded(child: _buildKembaliButton()),
+                ],
               ),
             ],
           ),
@@ -220,7 +242,61 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
     );
   }
 
-  // Tombol Simpan
+  Widget _buildPhoto() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (_currentPicture != null && _currentPicture!.isNotEmpty)
+          Column(
+            children: [
+              Image.network(
+                'https://www.emasjid.id/amm/upload/picture/$_currentPicture',
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _currentPicture = '';
+                  });
+                },
+                child: const Text('Hapus Gambar',
+                    style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          )
+        else if (_selectedImage != null)
+          Image.file(_selectedImage!,
+              height: 150, width: double.infinity, fit: BoxFit.cover)
+        else
+          GestureDetector(
+            onTap: _pickImage,
+            child: Container(
+              height: 150,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.add_a_photo, color: Colors.grey, size: 40),
+                    Text(
+                      'Upload Foto Takmir',
+                      style: GoogleFonts.poppins(color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
   Widget _buildSimpanButton() {
     return Container(
       decoration: BoxDecoration(
@@ -237,7 +313,7 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
           ),
         ),
         onPressed: () {
-          // Logika simpan data
+          _updateTakmir();
         },
         child: Text(
           'Simpan',
@@ -248,7 +324,6 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
     );
   }
 
-  // Tombol Kembali
   Widget _buildKembaliButton() {
     return Container(
       decoration: BoxDecoration(
@@ -274,5 +349,28 @@ class _EditTakmirScreenState extends State<EditTakmirScreen> {
         ),
       ),
     );
+  }
+
+  void _updateTakmir() async {
+    final takmirProvider = Provider.of<TakmirProvider>(context, listen: false);
+    bool success = await takmirProvider.updateDataTakmir(
+      no: widget.takmirNo,
+      name: _namaController.text,
+      phone: _teleponController.text,
+      email: _emailController.text,
+      address: _alamatController.text,
+      noTakmirJabatan: takmirProvider.jabatanList
+          .firstWhere((jabatan) => jabatan['name'] == _selectedJabatan)['no'],
+      picture: _selectedImage,
+      removePicture: _currentPicture == '',
+    );
+
+    if (success) {
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal memperbarui data takmir.')),
+      );
+    }
   }
 }

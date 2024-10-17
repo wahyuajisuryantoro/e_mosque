@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:e_mosque/components/custom_buttom_navigation_bar.dart'; // Import Custom Navigation Bar
+import 'package:e_mosque/components/custom_buttom_navigation_bar.dart';
 
 class LihatDataJamaahScreen extends StatefulWidget {
   const LihatDataJamaahScreen({super.key});

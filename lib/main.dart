@@ -1,9 +1,11 @@
 import 'package:e_mosque/controllers/acara_controller.dart';
 import 'package:e_mosque/controllers/berita_controller.dart';
+import 'package:e_mosque/controllers/jamaah_controller.dart';
 import 'package:e_mosque/controllers/notification_controller.dart';
 import 'package:e_mosque/controllers/masjid_controller.dart';
 import 'package:e_mosque/controllers/slider_controller.dart';
 import 'package:e_mosque/controllers/takmir_controller.dart';
+import 'package:e_mosque/controllers/takmir_jabatan_controller.dart';
 import 'package:e_mosque/pages/auth/auth.dart';
 import 'package:e_mosque/pages/home/home.dart';
 import 'package:e_mosque/pages/onboarding/onboarding_screen.dart';
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BeritaProvider()),
         ChangeNotifierProvider(create: (_) => AcaraProvider()),
         ChangeNotifierProvider(create: (_) => TakmirProvider()),
+        ChangeNotifierProvider(create: (_) => TakmirJabatanProvider()),
+        ChangeNotifierProvider(create: (_) => JamaahProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,6 +1,9 @@
+import 'package:e_mosque/components/alert.dart'; 
 import 'package:e_mosque/components/colors.dart';
+import 'package:e_mosque/controllers/takmir_jabatan_controller.dart'; 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class TambahJabatanScreen extends StatefulWidget {
   const TambahJabatanScreen({super.key});
@@ -10,10 +13,12 @@ class TambahJabatanScreen extends StatefulWidget {
 }
 
 class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
-  // Controller untuk setiap field input
+  
   final TextEditingController _namaController = TextEditingController();
   final TextEditingController _levelController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,61 +48,72 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
             const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Nama Jabatan
-                  TextField(
-                    controller: _namaController,
-                    decoration: InputDecoration(
-                      labelText: 'Nama Jabatan',
-                      labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    
+                    TextFormField(
+                      controller: _namaController,
+                      validator: (value) =>
+                          value!.isEmpty ? 'Nama Jabatan harus diisi' : null,
+                      decoration: InputDecoration(
+                        labelText: 'Nama Jabatan',
+                        labelStyle: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                     ),
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
-                  // Level
-                  TextField(
-                    controller: _levelController,
-                    decoration: InputDecoration(
-                      labelText: 'Level',
-                      labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    
+                    TextFormField(
+                      controller: _levelController,
+                      keyboardType: TextInputType.number,
+                      validator: (value) =>
+                          value!.isEmpty ? 'Level harus diisi' : null,
+                      decoration: InputDecoration(
+                        labelText: 'Level',
+                        labelStyle: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                     ),
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
+                    const SizedBox(height: 16),
 
-                  // Deskripsi
-                  TextField(
-                    controller: _deskripsiController,
-                    decoration: InputDecoration(
-                      labelText: 'Deskripsi',
-                      labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    
+                    TextFormField(
+                      controller: _deskripsiController,
+                      decoration: InputDecoration(
+                        labelText: 'Deskripsi (Opsional)',
+                        labelStyle: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
+                      maxLines: 4,
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
                     ),
-                    maxLines: 4,
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
-                  // Tombol Simpan dan Kembali
-                  Row(
-                    children: [
-                      Expanded(child: _buildSimpanButton()),
-                      const SizedBox(width: 10),
-                      Expanded(child: _buildKembaliButton()),
-                    ],
-                  ),
-                ],
+                    
+                    Row(
+                      children: [
+                        Expanded(child: _buildSimpanButton(context)),
+                        const SizedBox(width: 10),
+                        Expanded(child: _buildKembaliButton(context)),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -106,8 +122,11 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
     );
   }
 
-  // Tombol Simpan dengan primaryGradient
-  Widget _buildSimpanButton() {
+  
+  Widget _buildSimpanButton(BuildContext context) {
+    final jabatanProvider =
+        Provider.of<TakmirJabatanProvider>(context, listen: false);
+
     return Container(
       decoration: BoxDecoration(
         gradient: AppColors.primaryGradient,
@@ -122,32 +141,54 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        onPressed: () {
-          // Logika simpan data
-          final nama = _namaController.text;
-          final level = _levelController.text;
-          final deskripsi = _deskripsiController.text;
-
-          if (nama.isEmpty || level.isEmpty || deskripsi.isEmpty) {
-            // Tampilkan pesan error jika data kosong
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Semua field harus diisi')),
+        onPressed: () async {
+          if (_formKey.currentState!.validate()) {      
+            bool success = await jabatanProvider.postDataJabatanTakmir(
+              name: _namaController.text,
+              level: int.parse(_levelController.text),
+              description: _deskripsiController.text.isNotEmpty
+                  ? _deskripsiController.text
+                  : null,
+            );   
+            // Alert hanya muncul, dan Navigator.pop akan dijalankan setelah OK ditekan
+            if (success) {           
+              GlobalAlert.showAlert(
+                context: context,
+                title: 'Sukses',
+                message: 'Data jabatan berhasil disimpan.',
+                type: AlertType.success,
+                onPressed: () {
+                  Navigator.pop(context);  // Hanya pop setelah tombol OK di klik
+                },
+              );
+            } else {          
+              GlobalAlert.showAlert(
+                context: context,
+                title: 'Gagal',
+                message: jabatanProvider.errorMessage ?? 'Gagal menyimpan data',
+                type: AlertType.error,
+              );
+            }
+          } else {        
+            GlobalAlert.showAlert(
+              context: context,
+              title: 'Validasi Gagal',
+              message: 'Pastikan semua field yang wajib diisi telah terisi.',
+              type: AlertType.warning,
             );
-          } else {
-            // Simpan data
-            Navigator.pop(context);
           }
         },
         child: Text(
           'Simpan',
-          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold),
+          style: GoogleFonts.poppins(
+              color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
 
-  // Tombol Kembali dengan secondaryGradient
-  Widget _buildKembaliButton() {
+  
+  Widget _buildKembaliButton(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: AppColors.secondaryGradient,
@@ -167,7 +208,8 @@ class _TambahJabatanScreenState extends State<TambahJabatanScreen> {
         },
         child: Text(
           'Kembali',
-          style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold),
+          style: GoogleFonts.poppins(
+              color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );

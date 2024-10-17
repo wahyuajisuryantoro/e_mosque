@@ -1,7 +1,5 @@
-import 'package:e_mosque/components/alert.dart';
 import 'package:e_mosque/components/colors.dart';
 import 'package:e_mosque/pages/takmir/crud/edit_data_takmir.dart';
-import 'package:e_mosque/pages/takmir/crud/lihat_data_takmir.dart';
 import 'package:e_mosque/pages/takmir/crud/tambah_data_takmir.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,12 +18,27 @@ class _DataTakmirState extends State<DataTakmir>
     with AutomaticKeepAliveClientMixin<DataTakmir> {
   final String baseUrl = 'https://www.emasjid.id/amm/upload/picture/';
 
+  final Map<String, int> jabatanPrioritas = {
+    'Ketua': 1,
+    'Sekretaris': 2,
+    'Bendahara': 3,
+  };
+
   @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    widget.takmirList.sort((a, b) {
+      int jabatanA = jabatanPrioritas[a.jabatan ?? ''] ?? 99;
+      int jabatanB = jabatanPrioritas[b.jabatan ?? ''] ?? 99;
+      if (jabatanA == jabatanB) {
+        return a.noTakmirJabatan.compareTo(b.noTakmirJabatan);
+      }
+      return jabatanA.compareTo(jabatanB);
+    });
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,6 +52,7 @@ class _DataTakmirState extends State<DataTakmir>
                     itemBuilder: (context, index) {
                       final takmir = widget.takmirList[index];
                       return _buildTakmirCard(
+                        takmir.no,
                         takmir.name,
                         takmir.phone,
                         takmir.jabatan,
@@ -95,11 +109,9 @@ class _DataTakmirState extends State<DataTakmir>
     );
   }
 
-  Widget _buildTakmirCard(
-      String nama, String noHp, String jabatan, String? imageUrl) {
-    String fullImageUrl = (imageUrl != null && imageUrl.isNotEmpty)
-        ? '$baseUrl$imageUrl'
-        : '';
+  Widget _buildTakmirCard(int no, String nama, String noHp, String? jabatan, String? imageUrl) {
+    String fullImageUrl = (imageUrl != null && imageUrl.isNotEmpty) ? '$baseUrl$imageUrl' : '';
+    String displayedJabatan = jabatan ?? 'Jabatan tidak tersedia'; 
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
@@ -122,8 +134,7 @@ class _DataTakmirState extends State<DataTakmir>
                         radius: 30,
                         backgroundImage: (fullImageUrl.isNotEmpty)
                             ? NetworkImage(fullImageUrl)
-                            : const AssetImage('assets/images/user.png')
-                                as ImageProvider,
+                            : const AssetImage('assets/images/user.png') as ImageProvider,
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -131,7 +142,7 @@ class _DataTakmirState extends State<DataTakmir>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              jabatan,
+                              displayedJabatan, 
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -166,7 +177,7 @@ class _DataTakmirState extends State<DataTakmir>
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditTakmirScreen(),
+                          builder: (context) => EditTakmirScreen(takmirNo: no), 
                         ),
                       );
                     },

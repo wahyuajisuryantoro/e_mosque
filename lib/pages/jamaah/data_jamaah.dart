@@ -1,71 +1,50 @@
-
+import 'package:e_mosque/model/jamaah.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:e_mosque/components/colors.dart';
 import 'package:e_mosque/pages/jamaah/crud/edit_data_jamaah.dart';
 import 'package:e_mosque/pages/jamaah/crud/tambah_data_jamaah.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class DataJamaahTab extends StatefulWidget {
-  const DataJamaahTab({super.key});
+  final List<Jamaah> jamaahList;
+
+  const DataJamaahTab({super.key, required this.jamaahList});
 
   @override
   _DataJamaahTabState createState() => _DataJamaahTabState();
 }
 
-class _DataJamaahTabState extends State<DataJamaahTab> {
-  final String _selectedFilter = 'Semua';
-  final List<String> _filters = [
-    'Semua',
-    'Mampu',
-    'Kurang Mampu',
-    'Tidak Mampu',
-    'Menikah',
-    'Belum Menikah',
-    'Janda/Duda',
-    'Golongan'
-  ];
+class _DataJamaahTabState extends State<DataJamaahTab>
+    with AutomaticKeepAliveClientMixin<DataJamaahTab> {
+  final String baseUrl = 'https://www.emasjid.id/amm/upload/picture/';
 
-  final List<Map<String, String>> _jamaahData = [
-    {
-      'nama': 'Ahmad Maulana',
-      'no_hp': '08123456789',
-      'status': 'Mampu, Menikah',
-    },
-    {
-      'nama': 'Budi Setiawan',
-      'no_hp': '08234567890',
-      'status': 'Kurang Mampu, Belum Menikah',
-    },
-    {
-      'nama': 'Siti Aminah',
-      'no_hp': '08345678901',
-      'status': 'Tidak Mampu, Janda',
-    },
-    {
-      'nama': 'Rudi Hartono',
-      'no_hp': '08456789012',
-      'status': 'Mampu, Belum Menikah',
-    },
-  ];
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: _jamaahData.length,
-              itemBuilder: (context, index) {
-                final jamaah = _jamaahData[index];
-                return _buildJamaahCard(
-                  jamaah['nama']!,
-                  jamaah['no_hp']!,
-                  jamaah['status']!,
-                );
-              },
-            ),
+            child: widget.jamaahList.isEmpty
+                ? const Center(child: Text('Belum ada data jamaah.'))
+                : ListView.builder(
+                    itemCount: widget.jamaahList.length,
+                    itemBuilder: (context, index) {
+                      final jamaah = widget.jamaahList[index];
+                      return _buildJamaahCard(
+                        jamaah.name,
+                        jamaah.phone,
+                        jamaah.marital,
+                        jamaah.no,
+                        jamaah.picture, // Add picture field here
+                      );
+                    },
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -78,8 +57,7 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => TambahJamaahScreen()),
+                    MaterialPageRoute(builder: (context) => TambahJamaahScreen()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -114,8 +92,11 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
     );
   }
 
-  // Widget untuk menampilkan card data jamaah dengan tombol Edit di pojok kanan atas
-  Widget _buildJamaahCard(String nama, String noHp, String status) {
+  Widget _buildJamaahCard(String nama, String noHp, String status, int jamaahNo, String? picture) {
+    String imageUrl = (picture != null && picture.isNotEmpty)
+        ? '$baseUrl$picture'
+        : ''; // Full image URL or empty string
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
       child: Card(
@@ -133,10 +114,11 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
                 children: [
                   Row(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 30,
-                        backgroundImage: AssetImage(
-                            'assets/images/user.png'), 
+                        backgroundImage: (imageUrl.isNotEmpty)
+                            ? NetworkImage(imageUrl)
+                            : const AssetImage('assets/images/user.png') as ImageProvider, // Use local image if empty
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -151,11 +133,9 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            Text('No. HP: $noHp',
-                                style: GoogleFonts.poppins(fontSize: 14)),
-                            const SizedBox(height: 5,),
-                            Text('Status: $status',
-                                style: GoogleFonts.poppins(fontSize: 14)),
+                            Text('No. HP: $noHp', style: GoogleFonts.poppins(fontSize: 14)),
+                            const SizedBox(height: 5),
+                            Text('Status: $status', style: GoogleFonts.poppins(fontSize: 14)),
                           ],
                         ),
                       ),
@@ -164,26 +144,26 @@ class _DataJamaahTabState extends State<DataJamaahTab> {
                 ],
               ),
             ),
-           Positioned(
-                top: 10,
-                right: 0,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      color: AppColors.primaryGradient.colors.first,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EditJamaahScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+            Positioned(
+              top: 10,
+              right: 0,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    color: AppColors.primaryGradient.colors.first,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditJamaahScreen(jamaahNo: jamaahNo),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
+            ),
           ],
         ),
       ),

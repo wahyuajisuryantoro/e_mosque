@@ -21,7 +21,7 @@ class GlobalLoader {
                 ),
                 SizedBox(height: 15),
                 Text(
-                  'Loading, please wait...',
+                  'Sedang Memuat....',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

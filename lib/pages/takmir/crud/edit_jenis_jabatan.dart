@@ -1,28 +1,49 @@
 import 'package:e_mosque/components/alert.dart';
+import 'package:e_mosque/controllers/takmir_jabatan_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:e_mosque/components/colors.dart'; // Import AppColors untuk gradient
+import 'package:e_mosque/components/colors.dart';
+import 'package:provider/provider.dart';
 
 class EditJabatanScreen extends StatefulWidget {
-  const EditJabatanScreen({super.key});
+  final int jabatanNo;
+
+  const EditJabatanScreen({super.key, required this.jabatanNo});
 
   @override
   _EditJabatanScreenState createState() => _EditJabatanScreenState();
 }
 
 class _EditJabatanScreenState extends State<EditJabatanScreen> {
-  // Dropdown selections
-  String _selectedLevel = 'Level 1';
-  final List<String> _levelOptions = ['Level 1', 'Level 2', 'Level 3'];
+  late TextEditingController _namaJabatanController;
+  late TextEditingController _deskripsiController;
+  late TextEditingController _levelController;
 
-  // Predefined values (value yang sudah ada)
-  final TextEditingController _namaJabatanController =
-      TextEditingController(text: 'Ketua');
-  final TextEditingController _deskripsiController = TextEditingController(
-      text: 'Bertanggung jawab atas seluruh kegiatan masjid.');
+  @override
+  void initState() {
+    super.initState();
+    _loadJabatanData();
+  }
+
+  void _loadJabatanData() {
+    final jabatanProvider =
+        Provider.of<TakmirJabatanProvider>(context, listen: false);
+    final jabatan = jabatanProvider.jabatanList
+        .firstWhere((j) => j.no == widget.jabatanNo);
+
+    _namaJabatanController = TextEditingController(
+        text: jabatan.name.isNotEmpty ? jabatan.name : '');
+    _deskripsiController = TextEditingController(
+        text: jabatan.description.isNotEmpty ? jabatan.description : '');
+    _levelController = TextEditingController(
+        text: jabatan.level != null ? jabatan.level.toString() : '');
+  }
 
   @override
   Widget build(BuildContext context) {
+    final jabatanProvider =
+        Provider.of<TakmirJabatanProvider>(context, listen: false);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -31,6 +52,7 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
+            
             Navigator.pop(context);
           },
         ),
@@ -42,112 +64,117 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
             fontSize: 18,
           ),
         ),
-        centerTitle: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.delete, color: Colors.red),
             onPressed: () {
-              GlobalAlert.showAlert(
+              GlobalAlert.showConfirmation(
                 context: context,
                 title: 'Konfirmasi Hapus',
                 message: 'Apakah Anda yakin ingin menghapus jabatan ini?',
-                type: AlertType.warning,
+                onConfirm: () async {
+                  Navigator.pop(context);                 
+                  bool success = await jabatanProvider.deleteJabatanTakmir(
+                    no: widget.jabatanNo,
+                  );
+                  
+                  Navigator.pop(context);
+
+                  if (success) {
+                    GlobalAlert.showAlert(
+                      context: context,
+                      title: 'Sukses',
+                      message: 'Jabatan berhasil dihapus.',
+                      type: AlertType.success,
+                      onPressed: () {
+                        Navigator.pop(context); 
+                      },
+                    );
+                  } else {
+                    GlobalAlert.showAlert(
+                      context: context,
+                      title: 'Gagal Menghapus',
+                      message: jabatanProvider.errorMessage ??
+                          'Gagal menghapus jabatan, mungkin masih terkait dengan data takmir.',
+                      type: AlertType.error,
+                    );
+                  }
+                },
               );
             },
           ),
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Nama Jabatan:',
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _namaJabatanController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                style: GoogleFonts.poppins(),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Level Jabatan:',
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _levelController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                keyboardType: TextInputType.number,
+                style: GoogleFonts.poppins(),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Deskripsi Jabatan (Opsional):',
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _deskripsiController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                maxLines: 4,
+                style: GoogleFonts.poppins(),
+              ),
+              const SizedBox(height: 20),
+              Row(
                 children: [
-                  // Nama Jabatan
-                  Text(
-                    'Nama Jabatan:',
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _namaJabatanController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    style: GoogleFonts.poppins(),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Level Jabatan
-                  Text(
-                    'Level:',
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    value: _selectedLevel,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedLevel = value!;
-                      });
-                    },
-                    items: _levelOptions.map((level) {
-                      return DropdownMenuItem(
-                        value: level,
-                        child: Text(level, style: GoogleFonts.poppins()),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Deskripsi Jabatan
-                  Text(
-                    'Deskripsi:',
-                    style: GoogleFonts.poppins(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _deskripsiController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    maxLines: 4,
-                    style: GoogleFonts.poppins(),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Tombol Simpan dan Kembali
-                  Row(
-                    children: [
-                      Expanded(child: _buildSimpanButton()),
-                      const SizedBox(width: 10),
-                      Expanded(child: _buildKembaliButton()),
-                    ],
-                  ),
+                  Expanded(child: _buildSimpanButton()),
+                  const SizedBox(width: 10),
+                  Expanded(child: _buildKembaliButton()),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  // Tombol Simpan dengan primaryGradient
   Widget _buildSimpanButton() {
     return Container(
       decoration: BoxDecoration(
@@ -163,21 +190,57 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        onPressed: () {
-          // Logika simpan data
-          final namaJabatan = _namaJabatanController.text;
-          final level = _selectedLevel;
-          final deskripsi = _deskripsiController.text;
+        onPressed: () async {
+          final namaJabatan = _namaJabatanController.text.isEmpty
+              ? null
+              : _namaJabatanController.text;
+          final level = _levelController.text.isEmpty
+              ? null
+              : _levelController.text;
+          final deskripsi = _deskripsiController.text.isEmpty
+              ? ''
+              : _deskripsiController.text;
 
-          if (namaJabatan.isEmpty || level.isEmpty || deskripsi.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Semua field harus diisi')),
+          if (namaJabatan == null || level == null) {
+            GlobalAlert.showAlert(
+              context: context,
+              title: 'Error',
+              message: 'Nama jabatan dan level harus diisi',
+              type: AlertType.error,
             );
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Data Jabatan disimpan')),
+            final jabatanProvider =
+                Provider.of<TakmirJabatanProvider>(context, listen: false);
+            bool success = await jabatanProvider.updateJabatanTakmir(
+              no: widget.jabatanNo,
+              name: namaJabatan,
+              subdomain: '',
+              level: int.parse(level),
+              description: deskripsi,
             );
+            
             Navigator.pop(context);
+
+            if (success) {
+              GlobalAlert.showAlert(
+                context: context,
+                title: 'Sukses',
+                message: 'Data jabatan berhasil diperbarui.',
+                type: AlertType.success,
+                onPressed: () {
+                  Navigator.pop(context); 
+                  Navigator.pop(context); 
+                },
+              );
+            } else {
+              GlobalAlert.showAlert(
+                context: context,
+                title: 'Gagal',
+                message: jabatanProvider.errorMessage ??
+                    'Gagal memperbarui data jabatan.',
+                type: AlertType.error,
+              );
+            }
           }
         },
         child: Text(
@@ -189,7 +252,6 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
     );
   }
 
-  // Tombol Kembali dengan secondaryGradient
   Widget _buildKembaliButton() {
     return Container(
       decoration: BoxDecoration(
@@ -206,6 +268,7 @@ class _EditJabatanScreenState extends State<EditJabatanScreen> {
           ),
         ),
         onPressed: () {
+          
           Navigator.pop(context);
         },
         child: Text(

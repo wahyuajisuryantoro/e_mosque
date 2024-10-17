@@ -1,58 +1,51 @@
-import 'package:e_mosque/components/colors.dart';
-import 'package:e_mosque/pages/takmir/crud/edit_jenis_jabatan.dart';
-import 'package:e_mosque/pages/takmir/crud/tambah_data_takmir.dart';
-import 'package:e_mosque/pages/takmir/crud/tambah_jenis_jabatan.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:e_mosque/components/colors.dart';
+import 'package:e_mosque/pages/takmir/crud/edit_jenis_jabatan.dart';
+import 'package:e_mosque/pages/takmir/crud/tambah_jenis_jabatan.dart';
+import 'package:e_mosque/model/takmir_jabatan.dart';
 
 class JenisJabatanTakmir extends StatefulWidget {
-  const JenisJabatanTakmir({super.key});
+  final List<TakmirJabatan> jabatanList;
+
+  const JenisJabatanTakmir({super.key, required this.jabatanList});
 
   @override
   _JenisJabatanTakmirState createState() => _JenisJabatanTakmirState();
 }
 
-class _JenisJabatanTakmirState extends State<JenisJabatanTakmir> {
-  final List<Map<String, String>> _jabatanData = [
-    {
-      'nama_jabatan': 'Ketua',
-      'level': 'Level 1',
-    },
-    {
-      'nama_jabatan': 'Bendahara',
-      'level': 'Level 2',
-    },
-    {
-      'nama_jabatan': 'Sekretaris',
-      'level': 'Level 2',
-    },
-    {
-      'nama_jabatan': 'Anggota',
-      'level': 'Level 3',
-    },
-  ];
+class _JenisJabatanTakmirState extends State<JenisJabatanTakmir>
+    with AutomaticKeepAliveClientMixin<JenisJabatanTakmir> {
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
+    if (widget.jabatanList.isEmpty) {
+      return const Center(child: Text('Belum ada data jabatan.'));
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: _jabatanData.length,
+              itemCount: widget.jabatanList.length,
               itemBuilder: (context, index) {
-                final jabatan = _jabatanData[index];
+                final jabatan = widget.jabatanList[index];
                 return _buildJabatanCard(
-                  jabatan['nama_jabatan']!,
-                  jabatan['level']!,
+                  jabatan.name,
+                  'Level ${jabatan.level}',
+                  jabatan.no,
                 );
               },
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Container(
               decoration: BoxDecoration(
                 gradient: AppColors.primaryGradient,
@@ -92,14 +85,15 @@ class _JenisJabatanTakmirState extends State<JenisJabatanTakmir> {
               ),
             ),
           ),
-          const SizedBox(height: 40)
+          const SizedBox(
+            height: 40,
+          )
         ],
       ),
     );
   }
 
-  // Widget untuk menampilkan card jenis jabatan takmir dengan tombol Edit di pojok kanan atas
-  Widget _buildJabatanCard(String namaJabatan, String level) {
+  Widget _buildJabatanCard(String namaJabatan, String level, int no) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Card(
@@ -142,7 +136,9 @@ class _JenisJabatanTakmirState extends State<JenisJabatanTakmir> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditJabatanScreen(),
+                          builder: (context) => EditJabatanScreen(
+                            jabatanNo: no,
+                          ),
                         ),
                       );
                     },
